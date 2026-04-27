@@ -45,6 +45,10 @@
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       Monitoring
     </a>
+    <a href="#" class="nav-item" data-page="riwayat" id="nav-riwayat">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+      Riwayat Penilaian <span class="nav-badge" id="riwayatBadge">0</span>
+    </a>
 
     <div class="nav-group-label">PERSPEKTIF</div>
     <a href="#" class="nav-item nav-sub" data-filter="keuangan">
@@ -95,6 +99,13 @@
     </button>
     <div class="topbar-title" id="topbarTitle">Dashboard Monitoring KPI</div>
     <div class="topbar-actions">
+      <button class="btn-icon" id="modeToggleBtn" title="Toggle Dark/Light Mode">
+        <svg id="modeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="btn-icon notif-btn" id="notifBtn" title="Notifikasi KPI">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <span class="notif-badge" id="notifCount">2</span>
+      </button>
       <button class="btn-icon" id="printBtn" title="Cetak / Export">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
       </button>
@@ -112,7 +123,7 @@
         <h1 class="page-title">Dashboard Monitoring KPI</h1>
         <p class="page-sub">PERUSAHAAN DAERAH AIR MINUM (PDAM) · Tahun 2025</p>
       </div>
-      <div class="period-selector">
+      <div class="action-row">
         <select id="dashPeriod" class="select-styled">
           <option value="q1">Triwulan I (Jan–Mar)</option>
           <option value="q2">Triwulan II (Apr–Jun)</option>
@@ -120,6 +131,35 @@
           <option value="ytd">YTD (Jan–Sep)</option>
           <option value="annual">Tahunan</option>
         </select>
+        <button class="btn btn-outline" onclick="navigateTo('form')">+ Buat Penilaian</button>
+      </div>
+    </div>
+
+    <!-- QUICK STATS -->
+    <div class="quick-stats-bar">
+      <div class="qs-item">
+        <div class="qs-icon" style="background:#0ea5e920;color:#0ea5e9">📋</div>
+        <div><div class="qs-val" id="qsTotalPenilaian">0</div><div class="qs-lbl">Total Penilaian</div></div>
+      </div>
+      <div class="qs-item">
+        <div class="qs-icon" style="background:#22c55e20;color:#22c55e">✅</div>
+        <div><div class="qs-val" id="qsSangatBaik">0</div><div class="qs-lbl">Sangat Baik</div></div>
+      </div>
+      <div class="qs-item">
+        <div class="qs-icon" style="background:#84cc1620;color:#84cc16">👍</div>
+        <div><div class="qs-val" id="qsBaik">0</div><div class="qs-lbl">Baik</div></div>
+      </div>
+      <div class="qs-item">
+        <div class="qs-icon" style="background:#eab30820;color:#eab308">🔵</div>
+        <div><div class="qs-val" id="qsCukup">0</div><div class="qs-lbl">Cukup</div></div>
+      </div>
+      <div class="qs-item">
+        <div class="qs-icon" style="background:#ef444420;color:#ef4444">⚠</div>
+        <div><div class="qs-val" id="qsKurang">0</div><div class="qs-lbl">Kurang / Sangat Kurang</div></div>
+      </div>
+      <div class="qs-item">
+        <div class="qs-icon" style="background:#8b5cf620;color:#8b5cf6">📊</div>
+        <div><div class="qs-val" id="qsAvgScore">—</div><div class="qs-lbl">Rata-rata Skor</div></div>
       </div>
     </div>
 
@@ -348,6 +388,7 @@
       <div class="action-row">
         <button class="btn btn-outline" id="resetFormBtn">↺ Reset</button>
         <button class="btn btn-primary" id="hitungBtn">⚡ Hitung Nilai</button>
+        <button class="btn" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:white" id="simpanFormBtn">💾 Simpan Penilaian</button>
         <button class="btn btn-success" id="printFormBtn">🖨 Cetak Form</button>
       </div>
     </div>
@@ -459,6 +500,14 @@
         </div>
       </div>
 
+      <!-- BREAKDOWN PER PERSPEKTIF -->
+      <div id="breakdownSection" style="display:none;margin-top:20px">
+        <div class="section-header" style="margin-bottom:12px">
+          <h3 style="font-size:14px;font-weight:700">Skor Per Perspektif</h3>
+        </div>
+        <div class="breakdown-grid" id="breakdownGrid"></div>
+      </div>
+
       <!-- TTD SECTION -->
       <div class="ttd-grid">
         <div class="ttd-box">
@@ -509,6 +558,7 @@
       </div>
       <div class="action-row">
         <button class="btn btn-primary" id="addDataBtn">+ Tambah Data</button>
+        <button class="btn btn-outline" id="exportCsvBtn">📥 Export CSV</button>
       </div>
     </div>
 
@@ -618,6 +668,44 @@
             <!-- JS generated -->
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: RIWAYAT PENILAIAN -->
+  <div class="page" id="page-riwayat">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Riwayat Penilaian KPI</h1>
+        <p class="page-sub">Arsip seluruh hasil penilaian yang tersimpan</p>
+      </div>
+      <div class="action-row">
+        <input type="text" class="search-input" id="riwayatSearch" placeholder="🔍 Cari nama karyawan..." style="width:220px" />
+        <button class="btn btn-outline" id="clearRiwayatBtn">🗑 Hapus Semua</button>
+      </div>
+    </div>
+
+    <div id="riwayatEmpty" style="display:none;text-align:center;padding:80px 20px">
+      <div style="font-size:64px;margin-bottom:16px">📋</div>
+      <div style="font-size:18px;font-weight:700;color:#e2e8f0;margin-bottom:8px">Belum Ada Penilaian Tersimpan</div>
+      <div style="font-size:14px;color:#64748b;margin-bottom:24px">Buat penilaian baru di Form Penilaian, kemudian klik "Simpan Penilaian"</div>
+      <button class="btn btn-primary" onclick="navigateTo('form')">+ Buat Penilaian Baru</button>
+    </div>
+
+    <div class="riwayat-grid" id="riwayatGrid"></div>
+
+    <!-- MODAL DETAIL RIWAYAT -->
+    <div class="modal-overlay" id="detailModal" style="display:none">
+      <div class="modal" style="max-width:700px">
+        <div class="modal-header">
+          <h3 id="detailModalTitle">Detail Penilaian</h3>
+          <button class="modal-close" id="closeDetailModal">✕</button>
+        </div>
+        <div class="modal-body" id="detailModalBody" style="max-height:60vh;overflow-y:auto"></div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="closeDetailModal2">Tutup</button>
+          <button class="btn btn-success" onclick="window.print()">🖨 Cetak</button>
+        </div>
       </div>
     </div>
   </div>

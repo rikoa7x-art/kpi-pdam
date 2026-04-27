@@ -178,20 +178,7 @@ let monitoringData = [
 // ─── CHART INSTANCES ──────────────────────────────────────────
 let chartInstances = {};
 
-// ─── INIT ─────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  initDate();
-  initNavigation();
-  initDashboardCharts();
-  buildFormTable();
-  buildKpiList();
-  buildMonitoringTable();
-  initMonitoringCharts();
-  initFormEvents();
-  initModalEvents();
-  initPrintBtn();
-  initSidebarPerspektifLinks();
-});
+
 
 // ─── DATE ─────────────────────────────────────────────────────
 function initDate() {
@@ -203,7 +190,7 @@ function initDate() {
 }
 
 // ─── NAVIGATION ───────────────────────────────────────────────
-const PAGES = { dashboard:'Dashboard Monitoring KPI', form:'Form Penilaian KPI', 'kpi-list':'Daftar KPI Lengkap', monitoring:'Monitoring Kinerja', panduan:'Panduan Penggunaan' };
+const PAGES = { dashboard:'Dashboard Monitoring KPI', form:'Form Penilaian KPI', 'kpi-list':'Daftar KPI Lengkap', monitoring:'Monitoring Kinerja', riwayat:'Riwayat Penilaian KPI', panduan:'Panduan Penggunaan' };
 
 function initNavigation() {
   document.querySelectorAll('.nav-item[data-page]').forEach(el => {
@@ -222,9 +209,12 @@ function navigateTo(pageId) {
   const navEl = document.getElementById('nav-' + pageId);
   if (navEl) navEl.classList.add('active');
   document.getElementById('topbarTitle').textContent = PAGES[pageId] || '';
+  const notifPanel = document.querySelector('.notif-panel');
+  if (notifPanel) notifPanel.remove();
   closeSidebar();
-  if (pageId === 'dashboard') refreshDashboardCharts();
+  if (pageId === 'dashboard') { refreshDashboardCharts(); updateQuickStats(); }
   if (pageId === 'monitoring') refreshMonitoringCharts();
+  if (pageId === 'riwayat') buildRiwayatPage();
 }
 
 function toggleSidebar() {
@@ -407,6 +397,7 @@ function initFormEvents() {
   document.getElementById('hitungBtn').addEventListener('click', hitungTotal);
   document.getElementById('resetFormBtn').addEventListener('click', resetForm);
   document.getElementById('printFormBtn').addEventListener('click', () => window.print());
+  document.getElementById('simpanFormBtn').addEventListener('click', simpanPenilaian);
   document.getElementById('atasan').addEventListener('input', e => {
     document.getElementById('ttdAtasan').textContent = e.target.value || '__________________';
   });
@@ -438,6 +429,7 @@ function hitungTotal() {
   document.getElementById('hasilDesc').textContent = predikat.desc;
 
   buildHasilChart(total);
+  buildBreakdownSection();
   hasilSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
   showToast('✓ Perhitungan KPI selesai! Total: ' + rounded);
 }
@@ -478,6 +470,8 @@ function resetForm() {
   document.getElementById('totalNilai').textContent = '—';
   document.getElementById('predikatKinerja').textContent = '—';
   document.getElementById('hasilSection').style.display = 'none';
+  const bs = document.getElementById('breakdownSection');
+  if (bs) bs.style.display = 'none';
   showToast('✓ Form telah direset.');
 }
 
@@ -659,6 +653,17 @@ function initModalEvents() {
   document.getElementById('cancelModal').addEventListener('click', closeModal);
   document.getElementById('addDataModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
   document.getElementById('saveMonData').addEventListener('click', saveMonitoringData);
+  document.getElementById('exportCsvBtn')?.addEventListener('click', exportCSV);
+  document.getElementById('closeDetailModal')?.addEventListener('click', () => { const m = document.getElementById('detailModal'); if (m) m.style.display = 'none'; });
+  document.getElementById('closeDetailModal2')?.addEventListener('click', () => { const m = document.getElementById('detailModal'); if (m) m.style.display = 'none'; });
+  document.getElementById('clearRiwayatBtn')?.addEventListener('click', () => {
+    if (confirm('Hapus SEMUA riwayat penilaian?')) {
+      localStorage.removeItem('kpi_riwayat');
+      buildRiwayatPage(); updateRiwayatBadge(); updateQuickStats();
+      showToast('✓ Semua riwayat dihapus.');
+    }
+  });
+  document.getElementById('riwayatSearch')?.addEventListener('input', buildRiwayatPage);
 }
 
 function closeModal() {
@@ -696,3 +701,244 @@ function showToast(msg, type = 'success') {
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 3500);
 }
+
+// ─── LOCALSTORAGE ─────────────────────────────────────────────
+function saveMonitoringToStorage() {
+  localStorage.setItem('kpi_monitoring', JSON.stringify(monitoringData));
+}
+function loadFromStorage() {
+  const saved = localStorage.getItem('kpi_monitoring');
+  if (saved) {
+    try {
+      const d = JSON.parse(saved);
+      if (Array.isArray(d) && d.length) { monitoringData.length = 0; monitoringData.push(...d); }
+    } catch(e) {}
+  }
+}
+
+// ─── EXPORT CSV ───────────────────────────────────────────────
+function exportCSV() {
+  const header = 'Periode,NRW (%),Kualitas Air (%),Penagihan (%),IKP,Kehadiran (%)';
+  const rows = monitoringData.map(d => `${d.periode},${d.nrw},${d.kualitas},${d.penagihan},${d.ikp},${d.kehadiran}`);
+  const csv = [header, ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'monitoring_kpi_pdam_' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('📥 Data berhasil diexport ke CSV!');
+}
+
+// ─── SIMPAN PENILAIAN ─────────────────────────────────────────
+function simpanPenilaian() {
+  const nama = document.getElementById('namaKaryawan').value.trim();
+  const totalEl = document.getElementById('totalNilai');
+  if (!nama) { showToast('⚠ Isi Nama Karyawan terlebih dahulu!', 'warn'); return; }
+  if (totalEl.textContent === '—') { showToast('⚠ Hitung Nilai terlebih dahulu!', 'warn'); return; }
+  const record = {
+    id: Date.now(), nama,
+    nik: document.getElementById('nikKaryawan').value,
+    jabatan: document.getElementById('jabatan').value,
+    unit: document.getElementById('unitBagian').value,
+    atasan: document.getElementById('atasan').value,
+    periode: document.getElementById('periodeForm').value,
+    tglPenilaian: document.getElementById('tglPenilaian').value,
+    total: parseFloat(totalEl.textContent),
+    predikat: document.getElementById('predikatKinerja').textContent,
+    savedAt: new Date().toISOString(),
+    kpiData: getAllKpi().map(k => ({
+      no: k.no, nama: k.nama,
+      realisasi: document.getElementById('r_' + k.no)?.value || '',
+      nilai: document.getElementById('nilai_' + k.no)?.textContent || '—',
+      tert: document.getElementById('tert_' + k.no)?.textContent || '—',
+      catatan: document.getElementById('cat_' + k.no)?.value || ''
+    }))
+  };
+  const existing = JSON.parse(localStorage.getItem('kpi_riwayat') || '[]');
+  existing.unshift(record);
+  localStorage.setItem('kpi_riwayat', JSON.stringify(existing));
+  updateRiwayatBadge(); updateQuickStats();
+  showToast('💾 Penilaian berhasil disimpan ke Riwayat!');
+}
+
+// ─── BREAKDOWN PER PERSPEKTIF ─────────────────────────────────
+function buildBreakdownSection() {
+  const bs = document.getElementById('breakdownSection');
+  const grid = document.getElementById('breakdownGrid');
+  if (!bs || !grid) return;
+  let html = '';
+  PERSPEKTIF.forEach(p => {
+    let pTotal = 0, pCount = 0;
+    p.kpi.forEach(k => {
+      const tEl = document.getElementById('tert_' + k.no);
+      if (tEl && tEl.textContent !== '—') { pTotal += parseFloat(tEl.textContent) || 0; pCount++; }
+    });
+    if (pCount === 0) return;
+    const maxPossible = p.kpi.reduce((s, k) => s + parseFloat(k.bobot), 0) / 100 * 5;
+    const pct = Math.min(100, (pTotal / maxPossible) * 100);
+    const color = pTotal >= 1.75 ? '#22c55e' : pTotal >= 1.25 ? '#eab308' : '#ef4444';
+    html += `<div class="breakdown-item" style="border-top-color:${p.color}">
+      <div class="breakdown-label" style="color:${p.color}">${p.label}</div>
+      <div class="breakdown-score" style="color:${color}">${pTotal.toFixed(2)}</div>
+      <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${pct}%;background:${p.color}"></div></div>
+      <div class="breakdown-meta">${pCount} dari ${p.kpi.length} KPI diisi · Bobot ${p.bobot}</div>
+    </div>`;
+  });
+  grid.innerHTML = html;
+  bs.style.display = html ? 'block' : 'none';
+}
+
+// ─── RIWAYAT PAGE ─────────────────────────────────────────────
+function buildRiwayatPage() {
+  const data = JSON.parse(localStorage.getItem('kpi_riwayat') || '[]');
+  const q = document.getElementById('riwayatSearch')?.value?.toLowerCase() || '';
+  const filtered = q ? data.filter(r => r.nama.toLowerCase().includes(q)) : data;
+  const grid = document.getElementById('riwayatGrid');
+  const empty = document.getElementById('riwayatEmpty');
+  if (!grid) return;
+  if (filtered.length === 0) { grid.innerHTML = ''; if (empty) empty.style.display = 'block'; return; }
+  if (empty) empty.style.display = 'none';
+  const colorMap = { 'SANGAT BAIK':'#22c55e','BAIK':'#84cc16','CUKUP':'#eab308','KURANG':'#f97316','SANGAT KURANG':'#ef4444' };
+  grid.innerHTML = filtered.map(r => {
+    const color = Object.entries(colorMap).find(([k]) => r.predikat?.includes(k))?.[1] || '#94a3b8';
+    const tgl = r.tglPenilaian ? new Date(r.tglPenilaian).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+    const saved = new Date(r.savedAt).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
+    return `<div class="riwayat-card" style="border-top:3px solid ${color}">
+      <div class="riwayat-card-header">
+        <div><div class="riwayat-nama">${r.nama}</div><div class="riwayat-nik">NIK: ${r.nik||'—'}</div></div>
+        <span class="riwayat-badge" style="background:${color}20;color:${color};border:1px solid ${color}40">${r.predikat||'—'}</span>
+      </div>
+      <div class="riwayat-meta">
+        <span class="riwayat-meta-item">📌 ${r.jabatan||'—'}</span>
+        <span class="riwayat-meta-item">🏢 ${r.unit||'—'}</span>
+        <span class="riwayat-meta-item">📅 ${r.periode||'—'}</span>
+      </div>
+      <div class="riwayat-score-row">
+        <div class="riwayat-score-big" style="color:${color}">${r.total?.toFixed(2)||'—'}</div>
+        <div class="riwayat-score-info">
+          <div class="riwayat-predikat" style="color:${color}">${r.predikat||'—'}</div>
+          <div class="riwayat-tgl">Dinilai: ${tgl} · Disimpan: ${saved}</div>
+        </div>
+      </div>
+      <div class="riwayat-actions">
+        <button class="riwayat-btn" onclick="lihatDetailRiwayat(${r.id})">👁 Lihat Detail</button>
+        <button class="riwayat-btn danger" onclick="hapusRiwayat(${r.id})">🗑 Hapus</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function lihatDetailRiwayat(id) {
+  const data = JSON.parse(localStorage.getItem('kpi_riwayat') || '[]');
+  const r = data.find(x => x.id === id); if (!r) return;
+  const colorMap = {'SANGAT BAIK':'#22c55e','BAIK':'#84cc16','CUKUP':'#eab308','KURANG':'#f97316','SANGAT KURANG':'#ef4444'};
+  const color = Object.entries(colorMap).find(([k]) => r.predikat?.includes(k))?.[1] || '#94a3b8';
+  document.getElementById('detailModalTitle').textContent = 'Detail Penilaian — ' + r.nama;
+  let html = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">Nama</div><div style="font-weight:700">${r.nama}</div></div>
+    <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">NIK</div><div style="font-weight:700">${r.nik||'—'}</div></div>
+    <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">Jabatan</div><div style="font-weight:700">${r.jabatan||'—'}</div></div>
+    <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">Periode</div><div style="font-weight:700">${r.periode||'—'}</div></div>
+  </div>
+  <div style="text-align:center;padding:20px;background:var(--bg-dark);border-radius:8px;margin-bottom:16px">
+    <div style="font-size:48px;font-weight:900;color:${color}">${r.total?.toFixed(2)||'—'}</div>
+    <div style="font-size:16px;font-weight:700;color:${color}">${r.predikat||'—'}</div>
+  </div>
+  <table class="kpi-table"><thead><tr><th>No</th><th>Indikator KPI</th><th>Realisasi</th><th>Nilai</th><th>Tertimbang</th><th>Catatan</th></tr></thead><tbody>`;
+  (r.kpiData||[]).filter(k=>k.realisasi).forEach(k => {
+    html += `<tr><td>${k.no}</td><td style="font-size:12px">${k.nama}</td><td>${k.realisasi}</td><td style="font-weight:700">${k.nilai}</td><td>${k.tert}</td><td style="font-size:11px;color:#64748b">${k.catatan||'—'}</td></tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('detailModalBody').innerHTML = html;
+  document.getElementById('detailModal').style.display = 'flex';
+}
+
+function hapusRiwayat(id) {
+  if (!confirm('Hapus data penilaian ini?')) return;
+  let data = JSON.parse(localStorage.getItem('kpi_riwayat') || '[]');
+  data = data.filter(x => x.id !== id);
+  localStorage.setItem('kpi_riwayat', JSON.stringify(data));
+  buildRiwayatPage(); updateRiwayatBadge(); updateQuickStats();
+  showToast('✓ Data penilaian berhasil dihapus.');
+}
+
+function updateRiwayatBadge() {
+  const count = JSON.parse(localStorage.getItem('kpi_riwayat') || '[]').length;
+  const badge = document.getElementById('riwayatBadge');
+  if (badge) badge.textContent = count;
+}
+
+function updateQuickStats() {
+  const data = JSON.parse(localStorage.getItem('kpi_riwayat') || '[]');
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setEl('qsTotalPenilaian', data.length);
+  setEl('qsSangatBaik', data.filter(r => r.total >= 4.5).length);
+  setEl('qsBaik', data.filter(r => r.total >= 3.5 && r.total < 4.5).length);
+  setEl('qsCukup', data.filter(r => r.total >= 2.5 && r.total < 3.5).length);
+  setEl('qsKurang', data.filter(r => r.total < 2.5).length);
+  const avg = data.length ? (data.reduce((s,r) => s + r.total, 0) / data.length).toFixed(2) : '—';
+  setEl('qsAvgScore', avg);
+}
+
+// ─── DARK/LIGHT MODE TOGGLE ───────────────────────────────────
+function initModeToggle() {
+  const btn = document.getElementById('modeToggleBtn');
+  if (!btn) return;
+  if (localStorage.getItem('kpi_mode') === 'light') setLightMode(true);
+  btn.addEventListener('click', () => setLightMode(!document.body.classList.contains('light-mode')));
+}
+function setLightMode(on) {
+  const icon = document.getElementById('modeIcon');
+  if (on) {
+    document.body.classList.add('light-mode');
+    if (icon) icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
+    localStorage.setItem('kpi_mode', 'light');
+  } else {
+    document.body.classList.remove('light-mode');
+    if (icon) icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+    localStorage.setItem('kpi_mode', 'dark');
+  }
+}
+
+// ─── NOTIFIKASI PANEL ─────────────────────────────────────────
+const NOTIF_ITEMS = [
+  { color:'#ef4444', text:'NRW 23% melebihi target ≤20%. Tindakan segera diperlukan untuk mengurangi kebocoran pipa.', time:'Hari ini' },
+  { color:'#f97316', text:'Penyelesaian Keluhan 93% masih di bawah target ≥95%. Tingkatkan respons tim layanan.', time:'Hari ini' },
+  { color:'#eab308', text:'Evaluasi Triwulan III dijadwalkan akhir September 2025. Pastikan semua data KPI sudah dikumpulkan.', time:'3 hari lagi' },
+  { color:'#0ea5e9', text:'Efisiensi Produksi Q3 mencapai 87%. Pertahankan performa operasional yang sudah membaik.', time:'Minggu ini' },
+];
+function initNotifPanel() {
+  const btn = document.getElementById('notifBtn');
+  if (!btn) return;
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const existing = document.querySelector('.notif-panel');
+    if (existing) { existing.remove(); return; }
+    const panel = document.createElement('div');
+    panel.className = 'notif-panel';
+    panel.innerHTML = `<div class="notif-panel-header"><span>🔔 Notifikasi KPI</span><span style="font-size:10px;color:#64748b">${NOTIF_ITEMS.length} item</span></div>` +
+      NOTIF_ITEMS.map(n => `<div class="notif-item"><div class="notif-dot" style="background:${n.color}"></div><div><div class="notif-text">${n.text}</div><div class="notif-time">${n.time}</div></div></div>`).join('');
+    document.body.appendChild(panel);
+    setTimeout(() => document.addEventListener('click', () => { const p = document.querySelector('.notif-panel'); if (p) p.remove(); }, { once:true }), 100);
+  });
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  loadFromStorage();
+  initDate();
+  initNavigation();
+  initDashboardCharts();
+  buildFormTable();
+  buildKpiList();
+  buildMonitoringTable();
+  initMonitoringCharts();
+  initFormEvents();
+  initModalEvents();
+  initPrintBtn();
+  initSidebarPerspektifLinks();
+  initModeToggle();
+  initNotifPanel();
+  updateRiwayatBadge();
+  updateQuickStats();
+});
