@@ -1,0 +1,7 @@
+kpi_data.json
+kpi_data.txt
+kpi_preview.txt
+kpi_full.txt
+*.xlsx
+.DS_Store
+Thumbs.db

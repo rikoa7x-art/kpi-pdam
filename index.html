@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistem KPI PDAM - Dashboard Kinerja Karyawan</title>
+  <meta name="description" content="Aplikasi Key Performance Indicator PDAM - Pengukuran dan Evaluasi Kinerja Karyawan Berbasis KPI untuk seluruh fungsi dan jabatan." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="url(#lg1)"/><path d="M20 8c-2 4-7 7-7 13a7 7 0 0014 0c0-6-5-9-7-13z" fill="white" opacity="0.9"/><defs><linearGradient id="lg1" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#0ea5e9"/><stop offset="100%" stop-color="#0284c7"/></linearGradient></defs></svg>
+      </div>
+      <div>
+        <div class="logo-title">KPI PDAM</div>
+        <div class="logo-sub">Sistem Manajemen Kinerja</div>
+      </div>
+    </div>
+    <button class="sidebar-close" id="sidebarClose">✕</button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-group-label">UTAMA</div>
+    <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <a href="#" class="nav-item" data-page="form" id="nav-form">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+      Form Penilaian
+    </a>
+    <a href="#" class="nav-item" data-page="kpi-list" id="nav-kpi-list">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+      KPI Lengkap
+    </a>
+    <a href="#" class="nav-item" data-page="monitoring" id="nav-monitoring">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Monitoring
+    </a>
+
+    <div class="nav-group-label">PERSPEKTIF</div>
+    <a href="#" class="nav-item nav-sub" data-filter="keuangan">
+      <span class="dot dot-blue"></span> Keuangan & Efisiensi
+    </a>
+    <a href="#" class="nav-item nav-sub" data-filter="pelanggan">
+      <span class="dot dot-green"></span> Pelanggan & Layanan
+    </a>
+    <a href="#" class="nav-item nav-sub" data-filter="operasional">
+      <span class="dot dot-orange"></span> Operasional & Teknis
+    </a>
+    <a href="#" class="nav-item nav-sub" data-filter="sdm">
+      <span class="dot dot-purple"></span> SDM & Organisasi
+    </a>
+    <a href="#" class="nav-item nav-sub" data-filter="inovasi">
+      <span class="dot dot-teal"></span> Inovasi & Keberlanjutan
+    </a>
+
+    <div class="nav-group-label">LAINNYA</div>
+    <a href="#" class="nav-item" data-page="panduan" id="nav-panduan">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      Panduan Penggunaan
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-info">
+      <div class="info-label">Versi Dokumen</div>
+      <div class="info-value">1.0 · 2025</div>
+    </div>
+    <div class="sidebar-info">
+      <div class="info-label">Periode Evaluasi</div>
+      <div class="info-value">Triwulanan & Tahunan</div>
+    </div>
+  </div>
+</aside>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay"></div>
+
+<!-- MAIN -->
+<main class="main" id="main">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="topbar-title" id="topbarTitle">Dashboard Monitoring KPI</div>
+    <div class="topbar-actions">
+      <button class="btn-icon" id="printBtn" title="Cetak / Export">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      </button>
+      <div class="topbar-date">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span id="currentDate"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE: DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Dashboard Monitoring KPI</h1>
+        <p class="page-sub">PERUSAHAAN DAERAH AIR MINUM (PDAM) · Tahun 2025</p>
+      </div>
+      <div class="period-selector">
+        <select id="dashPeriod" class="select-styled">
+          <option value="q1">Triwulan I (Jan–Mar)</option>
+          <option value="q2">Triwulan II (Apr–Jun)</option>
+          <option value="q3" selected>Triwulan III (Jul–Sep)</option>
+          <option value="ytd">YTD (Jan–Sep)</option>
+          <option value="annual">Tahunan</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- METRIC CARDS -->
+    <div class="metrics-grid">
+      <div class="metric-card metric-blue">
+        <div class="metric-header">
+          <span class="metric-label">NRW / Air Tak Berekening</span>
+          <span class="metric-badge warning">⚠ Perlu Perhatian</span>
+        </div>
+        <div class="metric-value">23%</div>
+        <div class="metric-target">Target: ≤ 20% <span class="metric-change neg">+3% dari target</span></div>
+        <div class="metric-bar-wrap"><div class="metric-bar warn" style="width:77%"></div></div>
+      </div>
+      <div class="metric-card metric-green">
+        <div class="metric-header">
+          <span class="metric-label">Kualitas Air Baku Mutu</span>
+          <span class="metric-badge good">✓ Sangat Baik</span>
+        </div>
+        <div class="metric-value">99.8%</div>
+        <div class="metric-target">Target: 100% <span class="metric-change neg">-0.2%</span></div>
+        <div class="metric-bar-wrap"><div class="metric-bar good" style="width:99.8%"></div></div>
+      </div>
+      <div class="metric-card metric-teal">
+        <div class="metric-header">
+          <span class="metric-label">IKP (Kepuasan Pelanggan)</span>
+          <span class="metric-badge good">✓ Baik</span>
+        </div>
+        <div class="metric-value">82/100</div>
+        <div class="metric-target">Target: ≥ 80 <span class="metric-change pos">+2 poin</span></div>
+        <div class="metric-bar-wrap"><div class="metric-bar good" style="width:82%"></div></div>
+      </div>
+      <div class="metric-card metric-purple">
+        <div class="metric-header">
+          <span class="metric-label">Tingkat Penagihan Rekening</span>
+          <span class="metric-badge good">✓ Baik</span>
+        </div>
+        <div class="metric-value">96%</div>
+        <div class="metric-target">Target: ≥ 95% <span class="metric-change pos">+1%</span></div>
+        <div class="metric-bar-wrap"><div class="metric-bar good" style="width:96%"></div></div>
+      </div>
+      <div class="metric-card metric-orange">
+        <div class="metric-header">
+          <span class="metric-label">Kontinuitas Air</span>
+          <span class="metric-badge good">✓ Baik</span>
+        </div>
+        <div class="metric-value">21 jam</div>
+        <div class="metric-target">Target: ≥ 20 jam <span class="metric-change pos">+1 jam</span></div>
+        <div class="metric-bar-wrap"><div class="metric-bar good" style="width:87.5%"></div></div>
+      </div>
+      <div class="metric-card metric-red">
+        <div class="metric-header">
+          <span class="metric-label">Penyelesaian Keluhan</span>
+          <span class="metric-badge warning">⚠ Perlu Perhatian</span>
+        </div>
+        <div class="metric-value">93%</div>
+        <div class="metric-target">Target: ≥ 95% <span class="metric-change neg">-2%</span></div>
+        <div class="metric-bar-wrap"><div class="metric-bar warn" style="width:93%"></div></div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-title">Rekap Nilai KPI Per Perspektif</span>
+          <span class="chart-sub">Tren Triwulanan 2025</span>
+        </div>
+        <div class="chart-wrap" style="height:280px">
+          <canvas id="perspektifChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-title">Distribusi Bobot Perspektif</span>
+          <span class="chart-sub">Total 100%</span>
+        </div>
+        <div class="chart-wrap" style="height:280px">
+          <canvas id="bobotChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERSPEKTIF TABLE -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Rekap Nilai KPI Per Perspektif (Triwulanan)</h2>
+        <div class="legend-row">
+          <span class="legend-item"><span class="dot dot-green"></span>Baik (≥3.5)</span>
+          <span class="legend-item"><span class="dot dot-orange"></span>Perhatian (2.5–3.4)</span>
+          <span class="legend-item"><span class="dot dot-red"></span>Kurang (&lt;2.5)</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="kpi-table">
+          <thead>
+            <tr>
+              <th>Perspektif</th>
+              <th>Bobot</th>
+              <th>Q1</th>
+              <th>Q2</th>
+              <th>Q3</th>
+              <th>Q4</th>
+              <th>YTD Avg</th>
+              <th>Target</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="perspektifTableBody">
+            <tr>
+              <td><span class="dot dot-blue"></span> Keuangan &amp; Efisiensi</td>
+              <td><span class="bobot-badge">30%</span></td>
+              <td>3.8</td><td>4.0</td><td>3.7</td><td>—</td>
+              <td><strong>3.83</strong></td><td>≥3.5</td>
+              <td><span class="status-badge good">✓ Baik</span></td>
+            </tr>
+            <tr>
+              <td><span class="dot dot-green"></span> Pelanggan &amp; Layanan</td>
+              <td><span class="bobot-badge">25%</span></td>
+              <td>3.5</td><td>3.6</td><td>3.4</td><td>—</td>
+              <td><strong>3.50</strong></td><td>≥3.5</td>
+              <td><span class="status-badge good">✓ Baik</span></td>
+            </tr>
+            <tr>
+              <td><span class="dot dot-orange"></span> Operasional &amp; Teknis</td>
+              <td><span class="bobot-badge">25%</span></td>
+              <td>3.2</td><td>3.5</td><td>3.3</td><td>—</td>
+              <td><strong>3.33</strong></td><td>≥3.5</td>
+              <td><span class="status-badge warning">⚠ Perhatian</span></td>
+            </tr>
+            <tr>
+              <td><span class="dot dot-purple"></span> SDM &amp; Organisasi</td>
+              <td><span class="bobot-badge">12%</span></td>
+              <td>4.0</td><td>4.1</td><td>3.9</td><td>—</td>
+              <td><strong>4.00</strong></td><td>≥3.5</td>
+              <td><span class="status-badge good">✓ Baik</span></td>
+            </tr>
+            <tr>
+              <td><span class="dot dot-teal"></span> Inovasi &amp; Keberlanjutan</td>
+              <td><span class="bobot-badge">8%</span></td>
+              <td>3.6</td><td>3.7</td><td>3.8</td><td>—</td>
+              <td><strong>3.70</strong></td><td>≥3.5</td>
+              <td><span class="status-badge good">✓ Baik</span></td>
+            </tr>
+            <tr class="total-row">
+              <td><strong>TOTAL TERTIMBANG</strong></td>
+              <td><span class="bobot-badge">100%</span></td>
+              <td><strong>3.57</strong></td><td><strong>3.73</strong></td><td><strong>3.56</strong></td><td>—</td>
+              <td><strong>3.62</strong></td><td>≥3.5</td>
+              <td><span class="status-badge good">✓ Memenuhi</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RADAR CHART + ACTIVITY -->
+    <div class="two-col-grid">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-title">Spider Chart Kinerja</span>
+          <span class="chart-sub">Semua Perspektif</span>
+        </div>
+        <div class="chart-wrap" style="height:300px">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-title">Top 5 KPI Terendah</span>
+          <span class="chart-sub">Memerlukan perhatian segera</span>
+        </div>
+        <div class="low-kpi-list">
+          <div class="low-kpi-item">
+            <div class="low-kpi-rank rank-1">1</div>
+            <div class="low-kpi-info">
+              <div class="low-kpi-name">NRW / Air Tak Berekening</div>
+              <div class="low-kpi-bar-wrap"><div class="low-kpi-bar" style="width:60%;background:#ef4444"></div></div>
+            </div>
+            <div class="low-kpi-score red">2.0</div>
+          </div>
+          <div class="low-kpi-item">
+            <div class="low-kpi-rank rank-2">2</div>
+            <div class="low-kpi-info">
+              <div class="low-kpi-name">Penyelesaian Keluhan Pelanggan</div>
+              <div class="low-kpi-bar-wrap"><div class="low-kpi-bar" style="width:60%;background:#f97316"></div></div>
+            </div>
+            <div class="low-kpi-score orange">3.0</div>
+          </div>
+          <div class="low-kpi-item">
+            <div class="low-kpi-rank rank-3">3</div>
+            <div class="low-kpi-info">
+              <div class="low-kpi-name">Efisiensi Produksi</div>
+              <div class="low-kpi-bar-wrap"><div class="low-kpi-bar" style="width:66%;background:#f97316"></div></div>
+            </div>
+            <div class="low-kpi-score orange">3.3</div>
+          </div>
+          <div class="low-kpi-item">
+            <div class="low-kpi-rank rank-4">4</div>
+            <div class="low-kpi-info">
+              <div class="low-kpi-name">MTTR Kebocoran Pipa</div>
+              <div class="low-kpi-bar-wrap"><div class="low-kpi-bar" style="width:68%;background:#eab308"></div></div>
+            </div>
+            <div class="low-kpi-score green">3.4</div>
+          </div>
+          <div class="low-kpi-item">
+            <div class="low-kpi-rank rank-5">5</div>
+            <div class="low-kpi-info">
+              <div class="low-kpi-name">Frekuensi Gangguan Distribusi</div>
+              <div class="low-kpi-bar-wrap"><div class="low-kpi-bar" style="width:70%;background:#eab308"></div></div>
+            </div>
+            <div class="low-kpi-score green">3.5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: FORM PENILAIAN -->
+  <div class="page" id="page-form">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Form Penilaian KPI Karyawan</h1>
+        <p class="page-sub">Isi data karyawan dan realisasi setiap indikator KPI</p>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-outline" id="resetFormBtn">↺ Reset</button>
+        <button class="btn btn-primary" id="hitungBtn">⚡ Hitung Nilai</button>
+        <button class="btn btn-success" id="printFormBtn">🖨 Cetak Form</button>
+      </div>
+    </div>
+
+    <!-- EMPLOYEE INFO -->
+    <div class="section-card" id="employeeSection">
+      <div class="section-header">
+        <h2 class="section-title">Data Karyawan</h2>
+      </div>
+      <div class="form-grid-4">
+        <div class="form-group">
+          <label class="form-label">Nama Karyawan</label>
+          <input type="text" class="form-input" id="namaKaryawan" placeholder="Masukkan nama lengkap" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">NIK / No. Pegawai</label>
+          <input type="text" class="form-input" id="nikKaryawan" placeholder="Contoh: 2025001" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Jabatan / Posisi</label>
+          <input type="text" class="form-input" id="jabatan" placeholder="Contoh: Kepala Seksi Teknis" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Unit / Bagian</label>
+          <select class="form-input" id="unitBagian">
+            <option value="">— Pilih Unit —</option>
+            <option>Direksi</option>
+            <option>Teknik & Operasional</option>
+            <option>Keuangan & Akuntansi</option>
+            <option>Pelayanan Pelanggan</option>
+            <option>SDM & Umum</option>
+            <option>Perencanaan & IT</option>
+            <option>Internal Audit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Atasan Langsung</label>
+          <input type="text" class="form-input" id="atasan" placeholder="Nama atasan" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Periode Penilaian</label>
+          <select class="form-input" id="periodeForm">
+            <option>Triwulan I 2025 (Jan–Mar)</option>
+            <option>Triwulan II 2025 (Apr–Jun)</option>
+            <option selected>Triwulan III 2025 (Jul–Sep)</option>
+            <option>Triwulan IV 2025 (Okt–Des)</option>
+            <option>Tahunan 2025</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tanggal Penilaian</label>
+          <input type="date" class="form-input" id="tglPenilaian" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tanggal Validasi SDM</label>
+          <input type="date" class="form-input" id="tglValidasi" />
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI FORM TABLE -->
+    <div class="section-card" id="kpiFormSection">
+      <div class="section-header">
+        <h2 class="section-title">Penilaian Indikator KPI</h2>
+        <div class="info-chip">Skala Nilai 1–5 · Total Bobot 100%</div>
+      </div>
+      <div class="table-wrap" id="formTableWrap">
+        <table class="kpi-table kpi-form-table" id="formTable">
+          <thead>
+            <tr>
+              <th style="width:40px">No</th>
+              <th>Indikator KPI</th>
+              <th style="width:100px">Target</th>
+              <th style="width:120px">Realisasi</th>
+              <th style="width:80px">% Capai</th>
+              <th style="width:80px">Nilai (1–5)</th>
+              <th style="width:70px">Bobot</th>
+              <th style="width:100px">Nilai Tertimbang</th>
+              <th>Catatan / Bukti</th>
+            </tr>
+          </thead>
+          <tbody id="formTableBody">
+            <!-- JS generated -->
+          </tbody>
+          <tfoot id="formTableFoot">
+            <tr class="total-row">
+              <td colspan="7" style="text-align:right"><strong>TOTAL NILAI KPI TERTIMBANG</strong></td>
+              <td><strong id="totalNilai">—</strong></td>
+              <td></td>
+            </tr>
+            <tr class="predikat-row">
+              <td colspan="7" style="text-align:right"><strong>PREDIKAT KINERJA</strong></td>
+              <td colspan="2"><strong id="predikatKinerja">—</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- HASIL PENILAIAN -->
+      <div class="hasil-section" id="hasilSection" style="display:none">
+        <div class="hasil-card" id="hasilCard">
+          <div class="hasil-header">HASIL PENILAIAN KPI</div>
+          <div class="hasil-score" id="hasilScore">0.00</div>
+          <div class="hasil-predikat" id="hasilPredikat">—</div>
+          <div class="hasil-desc" id="hasilDesc">—</div>
+        </div>
+        <div class="hasil-chart-wrap" style="height:220px;max-width:300px">
+          <canvas id="hasilChart"></canvas>
+        </div>
+      </div>
+
+      <!-- TTD SECTION -->
+      <div class="ttd-grid">
+        <div class="ttd-box">
+          <div class="ttd-label">Diketahui: Atasan Langsung</div>
+          <div class="ttd-space"></div>
+          <div class="ttd-name">(<span id="ttdAtasan">__________________</span>)</div>
+        </div>
+        <div class="ttd-box">
+          <div class="ttd-label">Divalidasi: Bagian SDM</div>
+          <div class="ttd-space"></div>
+          <div class="ttd-name">(__________________)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: KPI LENGKAP -->
+  <div class="page" id="page-kpi-list">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Daftar KPI Lengkap</h1>
+        <p class="page-sub">42 Indikator KPI · 5 Perspektif Balanced Scorecard · Total Bobot 100%</p>
+      </div>
+      <div class="action-row">
+        <input type="text" class="search-input" id="kpiSearch" placeholder="🔍  Cari indikator..." />
+        <select class="select-styled" id="kpiFilter">
+          <option value="">Semua Perspektif</option>
+          <option value="keuangan">Keuangan & Efisiensi</option>
+          <option value="pelanggan">Pelanggan & Layanan</option>
+          <option value="operasional">Operasional & Teknis</option>
+          <option value="sdm">SDM & Organisasi</option>
+          <option value="inovasi">Inovasi & Keberlanjutan</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="kpiListContainer">
+      <!-- JS generated per perspektif -->
+    </div>
+  </div>
+
+  <!-- PAGE: MONITORING -->
+  <div class="page" id="page-monitoring">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Monitoring Kinerja</h1>
+        <p class="page-sub">Pantau tren dan pencapaian KPI secara berkala</p>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-primary" id="addDataBtn">+ Tambah Data</button>
+      </div>
+    </div>
+
+    <!-- MONITORING CHART -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-title">Tren NRW Bulanan</span>
+          <span class="chart-sub">Target: ≤ 20%</span>
+        </div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="nrwChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-title">Tren Kualitas Air</span>
+          <span class="chart-sub">Target: 100%</span>
+        </div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="kualitasChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-title">Tingkat Penagihan Rekening</span>
+          <span class="chart-sub">Target: ≥ 95%</span>
+        </div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="penagihanChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-title">Nilai KPI Tertimbang per Triwulan</span>
+          <span class="chart-sub">Target: ≥ 3.5</span>
+        </div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="trendNilaiChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD DATA MODAL -->
+    <div class="modal-overlay" id="addDataModal" style="display:none">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Tambah Data Monitoring</h3>
+          <button class="modal-close" id="closeModal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Periode</label>
+              <select class="form-input" id="monPeriode">
+                <option>Jan 2025</option><option>Feb 2025</option><option>Mar 2025</option>
+                <option>Apr 2025</option><option>Mei 2025</option><option>Jun 2025</option>
+                <option>Jul 2025</option><option>Agu 2025</option><option>Sep 2025</option>
+                <option>Okt 2025</option><option>Nov 2025</option><option>Des 2025</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">NRW (%)</label>
+              <input type="number" class="form-input" id="monNrw" step="0.1" placeholder="contoh: 23.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kualitas Air (%)</label>
+              <input type="number" class="form-input" id="monKualitas" step="0.1" placeholder="contoh: 99.8" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Penagihan Rekening (%)</label>
+              <input type="number" class="form-input" id="monPenagihan" step="0.1" placeholder="contoh: 96.2" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="cancelModal">Batal</button>
+          <button class="btn btn-primary" id="saveMonData">Simpan Data</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MONITORING TABLE -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Riwayat Data KPI</h2>
+        <span class="info-chip" id="dataCount">9 entri data</span>
+      </div>
+      <div class="table-wrap">
+        <table class="kpi-table" id="monitoringTable">
+          <thead>
+            <tr>
+              <th>Periode</th>
+              <th>NRW (%)</th>
+              <th>Kualitas Air (%)</th>
+              <th>Penagihan (%)</th>
+              <th>IKP</th>
+              <th>Kehadiran (%)</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="monitoringBody">
+            <!-- JS generated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: PANDUAN -->
+  <div class="page" id="page-panduan">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Panduan Penggunaan</h1>
+        <p class="page-sub">Dokumen KPI PDAM · Versi 1.0 · 2025</p>
+      </div>
+    </div>
+
+    <div class="panduan-layout">
+      <div class="panduan-toc">
+        <div class="toc-title">Daftar Isi</div>
+        <a class="toc-link" href="#tujuan">1. Tujuan Dokumen</a>
+        <a class="toc-link" href="#siklus">2. Siklus Evaluasi</a>
+        <a class="toc-link" href="#cara">3. Cara Penilaian</a>
+        <a class="toc-link" href="#interpretasi">4. Interpretasi Hasil</a>
+        <a class="toc-link" href="#peran">5. Peran & Tanggung Jawab</a>
+        <a class="toc-link" href="#etika">6. Etika Penilaian</a>
+        <a class="toc-link" href="#skala">7. Skala Penilaian</a>
+      </div>
+
+      <div class="panduan-content">
+        <section id="tujuan" class="panduan-section">
+          <h2>1. Tujuan Dokumen</h2>
+          <p>Dokumen ini disusun sebagai panduan resmi pengukuran dan evaluasi kinerja karyawan PDAM berbasis Key Performance Indicator (KPI). Tujuan utamanya adalah memastikan pengukuran kinerja yang <strong>objektif, transparan, terukur, dan konsisten</strong> di seluruh unit kerja.</p>
+          <div class="panduan-info-box">
+            <div class="panduan-info-icon">📌</div>
+            <div>Dokumen ini berlaku untuk seluruh karyawan PDAM di semua fungsi dan jabatan dengan skala penilaian 1–5 (Sangat Kurang s.d. Sangat Baik).</div>
+          </div>
+        </section>
+
+        <section id="siklus" class="panduan-section">
+          <h2>2. Siklus Evaluasi</h2>
+          <div class="siklus-grid">
+            <div class="siklus-card blue">
+              <div class="siklus-icon">📅</div>
+              <div class="siklus-title">Bulanan</div>
+              <div class="siklus-desc">KPI operasional dan teknis (NRW, kualitas air, kontinuitas, MTTR) diukur dan dilaporkan setiap bulan oleh kepala bagian teknis kepada Direksi.</div>
+            </div>
+            <div class="siklus-card teal">
+              <div class="siklus-icon">📊</div>
+              <div class="siklus-title">Triwulanan</div>
+              <div class="siklus-desc">Evaluasi menyeluruh KPI perspektif keuangan, pelanggan, dan SDM. Hasil digunakan sebagai dasar coaching &amp; counseling antara atasan dan bawahan.</div>
+            </div>
+            <div class="siklus-card purple">
+              <div class="siklus-icon">🏆</div>
+              <div class="siklus-title">Tahunan</div>
+              <div class="siklus-desc">Penilaian komprehensif seluruh KPI. Hasil menjadi dasar keputusan promosi, mutasi, pengembangan karier, dan penyesuaian remunerasi.</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="cara" class="panduan-section">
+          <h2>3. Cara Penilaian</h2>
+          <div class="steps-list">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>Kumpulkan Data Realisasi</strong>
+                <p>Kumpulkan data realisasi KPI dari sistem informasi, laporan operasional, dan survei yang relevan.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Hitung Persentase Pencapaian</strong>
+                <p>Hitung: (Realisasi ÷ Target) × 100%. Perhatikan arah KPI — semakin tinggi lebih baik, atau semakin rendah lebih baik.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Konversi ke Nilai 1–5</strong>
+                <p>Konversi persentase pencapaian ke dalam skala nilai 1–5 menggunakan rubrik penilaian pada kolom "Panduan Scoring" di sheet KPI LENGKAP.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>Hitung Nilai Tertimbang</strong>
+                <p>Kalikan nilai (1–5) dengan bobot masing-masing KPI untuk mendapatkan Nilai Tertimbang.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <strong>Jumlahkan Total Nilai</strong>
+                <p>Jumlahkan seluruh Nilai Tertimbang untuk mendapatkan Total Nilai KPI Tertimbang. Bandingkan dengan target minimum (≥3.0).</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="interpretasi" class="panduan-section">
+          <h2>4. Interpretasi Hasil</h2>
+          <div class="interpretasi-table">
+            <div class="interp-row interp-excellent">
+              <div class="interp-range">4.5 – 5.0</div>
+              <div class="interp-label">⭐ SANGAT BAIK</div>
+              <div class="interp-desc">Kinerja melampaui target secara konsisten. Karyawan layak dipertimbangkan untuk promosi atau penghargaan.</div>
+            </div>
+            <div class="interp-row interp-good">
+              <div class="interp-range">3.5 – 4.4</div>
+              <div class="interp-label">✅ BAIK</div>
+              <div class="interp-desc">Kinerja memenuhi dan umumnya melampaui target. Lanjutkan program pengembangan yang ada.</div>
+            </div>
+            <div class="interp-row interp-average">
+              <div class="interp-range">2.5 – 3.4</div>
+              <div class="interp-label">🔵 CUKUP</div>
+              <div class="interp-desc">Kinerja memenuhi ekspektasi minimum. Perlu program coaching dan action plan perbaikan.</div>
+            </div>
+            <div class="interp-row interp-poor">
+              <div class="interp-range">1.5 – 2.4</div>
+              <div class="interp-label">⚠ KURANG</div>
+              <div class="interp-desc">Kinerja di bawah ekspektasi. Perlu program pembinaan intensif dan monitoring ketat.</div>
+            </div>
+            <div class="interp-row interp-very-poor">
+              <div class="interp-range">&lt; 1.5</div>
+              <div class="interp-label">❌ SANGAT KURANG</div>
+              <div class="interp-desc">Kinerja sangat jauh dari target. Perlu evaluasi menyeluruh, termasuk kemungkinan mutasi atau sanksi sesuai peraturan.</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="peran" class="panduan-section">
+          <h2>5. Peran &amp; Tanggung Jawab</h2>
+          <div class="peran-grid">
+            <div class="peran-card">
+              <div class="peran-icon">👤</div>
+              <div class="peran-title">Karyawan (Ratee)</div>
+              <ul class="peran-list">
+                <li>Mengumpulkan dan mendokumentasikan bukti pencapaian KPI</li>
+                <li>Mengisi form self-assessment sebelum sesi evaluasi</li>
+              </ul>
+            </div>
+            <div class="peran-card">
+              <div class="peran-icon">👔</div>
+              <div class="peran-title">Atasan Langsung (Rater)</div>
+              <ul class="peran-list">
+                <li>Melakukan penilaian berdasarkan data dan bukti yang tersedia</li>
+                <li>Memberikan feedback konstruktif</li>
+                <li>Menandatangani form penilaian</li>
+              </ul>
+            </div>
+            <div class="peran-card">
+              <div class="peran-icon">🏢</div>
+              <div class="peran-title">Bagian SDM</div>
+              <ul class="peran-list">
+                <li>Mengkoordinasikan jadwal evaluasi</li>
+                <li>Memvalidasi hasil penilaian</li>
+                <li>Mengolah data untuk keperluan manajemen talenta</li>
+              </ul>
+            </div>
+            <div class="peran-card">
+              <div class="peran-icon">🎯</div>
+              <div class="peran-title">Direksi / Manajemen</div>
+              <ul class="peran-list">
+                <li>Menetapkan target KPI tahunan</li>
+                <li>Memonitor dashboard kinerja</li>
+                <li>Menggunakan hasil KPI sebagai dasar keputusan strategis SDM</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="etika" class="panduan-section">
+          <h2>6. Etika Penilaian</h2>
+          <div class="etika-grid">
+            <div class="etika-item">
+              <div class="etika-icon" style="background:#3b82f680">⚖</div>
+              <strong>Objektivitas</strong>
+              <p>Penilaian harus berdasarkan data dan bukti nyata, bukan persepsi atau hubungan personal. Hindari bias halo effect dan recency bias.</p>
+            </div>
+            <div class="etika-item">
+              <div class="etika-icon" style="background:#10b98180">🔍</div>
+              <strong>Transparansi</strong>
+              <p>Hasil penilaian dikomunikasikan secara terbuka kepada karyawan yang dinilai. Karyawan berhak meminta klarifikasi atas setiap nilai yang diberikan.</p>
+            </div>
+            <div class="etika-item">
+              <div class="etika-icon" style="background:#8b5cf680">🔒</div>
+              <strong>Kerahasiaan</strong>
+              <p>Hasil penilaian individual bersifat rahasia dan hanya boleh diakses oleh karyawan bersangkutan, atasan langsung, dan Bagian SDM.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="skala" class="panduan-section">
+          <h2>7. Skala Penilaian</h2>
+          <div class="skala-table">
+            <div class="skala-row">
+              <div class="skala-nilai" style="background:#22c55e20;border-color:#22c55e">5</div>
+              <div class="skala-label">Sangat Baik</div>
+              <div class="skala-desc">Kinerja melampaui semua target secara konsisten</div>
+            </div>
+            <div class="skala-row">
+              <div class="skala-nilai" style="background:#84cc1620;border-color:#84cc16">4</div>
+              <div class="skala-label">Baik</div>
+              <div class="skala-desc">Kinerja memenuhi dan sering melampaui target</div>
+            </div>
+            <div class="skala-row">
+              <div class="skala-nilai" style="background:#eab30820;border-color:#eab308">3</div>
+              <div class="skala-label">Cukup</div>
+              <div class="skala-desc">Kinerja memenuhi ekspektasi minimum</div>
+            </div>
+            <div class="skala-row">
+              <div class="skala-nilai" style="background:#f9731620;border-color:#f97316">2</div>
+              <div class="skala-label">Kurang</div>
+              <div class="skala-desc">Kinerja di bawah ekspektasi yang ditetapkan</div>
+            </div>
+            <div class="skala-row">
+              <div class="skala-nilai" style="background:#ef444420;border-color:#ef4444">1</div>
+              <div class="skala-label">Sangat Kurang</div>
+              <div class="skala-desc">Kinerja sangat jauh dari target yang ditetapkan</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
