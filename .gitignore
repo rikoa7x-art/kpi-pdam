@@ -5,3 +5,4 @@ kpi_full.txt
 *.xlsx
 .DS_Store
 Thumbs.db
+deploy-github.ps1
