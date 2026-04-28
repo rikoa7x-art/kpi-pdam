@@ -533,7 +533,7 @@ function buildKpiList() {
         </div>
         <div class="kpi-card-desc">${k.desc}</div>
         <div class="kpi-card-meta">
-          <span class="kpi-meta-item">ðŸ“ ${k.satuan}</span>
+          <span class="kpi-meta-item">??? ${k.satuan}</span>
           <span class="kpi-meta-item">🎯 ${k.target}</span>
           <span class="kpi-meta-item">📆 ${k.periode}</span>
           <span class="kpi-meta-item">${k.arah === 'tinggi' ? '↑ Lebih tinggi lebih baik' : k.arah === 'rendah' ? '↓ Lebih rendah lebih baik' : '↔ Rentang optimal'}</span>
@@ -846,7 +846,7 @@ function buildRiwayatPage() {
       </div>
       <div class="riwayat-meta">
         <span class="riwayat-meta-item">📌 ${r.jabatan||'—'}</span>
-        <span class="riwayat-meta-item">ðŸ¢ ${r.unit||'—'}</span>
+        <span class="riwayat-meta-item">??? ${r.unit||'—'}</span>
         <span class="riwayat-meta-item">📆 ${r.periode||'—'}</span>
       </div>
       <div class="riwayat-score-row">
@@ -857,7 +857,7 @@ function buildRiwayatPage() {
         </div>
       </div>
       <div class="riwayat-actions">
-        <button class="riwayat-btn" onclick="lihatDetailRiwayat(${r.id})">ðŸ‘ Lihat Detail</button>
+        <button class="riwayat-btn" onclick="lihatDetailRiwayat(${r.id})">??? Lihat Detail</button>
         <button class="riwayat-btn danger" onclick="hapusRiwayat(${r.id})">🗑 Hapus</button>
       </div>
     </div>`;
