@@ -775,6 +775,7 @@ function simpanPenilaian() {
     nik: document.getElementById('nikKaryawan').value,
     jabatan: document.getElementById('jabatan').value,
     unit: document.getElementById('unitBagian').value,
+    cabang: document.getElementById('cabang')?.value || '',
     atasan: document.getElementById('atasan').value,
     periode: document.getElementById('periodeForm').value,
     tglPenilaian: document.getElementById('tglPenilaian').value,
@@ -844,9 +845,9 @@ function buildRiwayatPage() {
         <span class="riwayat-badge" style="background:${color}20;color:${color};border:1px solid ${color}40">${r.predikat||'—'}</span>
       </div>
       <div class="riwayat-meta">
-        <span class="riwayat-meta-item">ðŸ“Œ ${r.jabatan||'—'}</span>
+        <span class="riwayat-meta-item">📌 ${r.jabatan||'—'}</span>
         <span class="riwayat-meta-item">ðŸ¢ ${r.unit||'—'}</span>
-        <span class="riwayat-meta-item">ðŸ“… ${r.periode||'—'}</span>
+        <span class="riwayat-meta-item">📆 ${r.periode||'—'}</span>
       </div>
       <div class="riwayat-score-row">
         <div class="riwayat-score-big" style="color:${color}">${r.total?.toFixed(2)||'—'}</div>
