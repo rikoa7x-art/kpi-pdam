@@ -97,11 +97,11 @@ body::after {
 .sidebar-logo { display:flex; align-items:center; gap:12px; }
 .logo-icon {
   width:64px; height:64px;
-  background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(139,92,246,0.15));
-  border:1px solid var(--border);
+  background:transparent;
+  border:none;
   border-radius:var(--radius-sm);
   display:flex; align-items:center; justify-content:center;
-  box-shadow:var(--glow-cyan);
+  box-shadow:none;
   filter:drop-shadow(0 0 8px rgba(0,212,255,0.2));
 }
 .logo-title {
