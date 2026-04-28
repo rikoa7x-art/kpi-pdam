@@ -538,7 +538,7 @@ function buildKpiList() {
           <span class="kpi-meta-item">📆 ${k.periode}</span>
           <span class="kpi-meta-item">${k.arah === 'tinggi' ? '↑ Lebih tinggi lebih baik' : k.arah === 'rendah' ? '↓ Lebih rendah lebih baik' : '↔ Rentang optimal'}</span>
         </div>
-        <div class="kpi-card-scoring"><strong>ðŸ“Š Panduan Scoring:</strong>${k.scoring}</div>
+        <div class="kpi-card-scoring"><strong>📊 Panduan Scoring:</strong>${k.scoring}</div>
         <div style="margin-top:8px;font-size:11px;color:#64748b"><strong style="color:#94a3b8">Formula:</strong> ${k.formula}</div>
       </div>`;
     });
@@ -952,7 +952,7 @@ function initNotifPanel() {
     if (existing) { existing.remove(); return; }
     const panel = document.createElement('div');
     panel.className = 'notif-panel';
-    panel.innerHTML = `<div class="notif-panel-header"><span>ðŸ”” Notifikasi KPI</span><span style="font-size:10px;color:#64748b">${NOTIF_ITEMS.length} item</span></div>` +
+    panel.innerHTML = `<div class="notif-panel-header"><span>🔔 Notifikasi KPI</span><span style="font-size:10px;color:#64748b">${NOTIF_ITEMS.length} item</span></div>` +
       NOTIF_ITEMS.map(n => `<div class="notif-item"><div class="notif-dot" style="background:${n.color}"></div><div><div class="notif-text">${n.text}</div><div class="notif-time">${n.time}</div></div></div>`).join('');
     document.body.appendChild(panel);
     setTimeout(() => document.addEventListener('click', () => { const p = document.querySelector('.notif-panel'); if (p) p.remove(); }, { once:true }), 100);
