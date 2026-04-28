@@ -2,39 +2,39 @@
    KPI PDAM - Main Application JavaScript
    ============================================================ */
 
-// â”€â”€â”€ DATA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── DATA ────────────────────────────────────────────────────
 const PERSPEKTIF = [
   {
     id: 'keuangan', label: 'Keuangan & Efisiensi', bobot: '30%',
     color: '#0ea5e9', colorLight: '#0ea5e920', dotClass: 'dot-blue',
     kpi: [
       { no:1, nama:'Tingkat Penagihan Rekening (Collection Rate)', desc:'Persentase tagihan air yang berhasil ditagih dari total tagihan yang diterbitkan kepada pelanggan aktif.',
-        formula:'(Total Rekening Tertagih / Total Rekening Diterbitkan) Ã— 100%', satuan:'%', bobot:'4%', target:'â‰¥95%',
-        scoring:'5=â‰¥98%; 4=95-97%; 3=90-94%; 2=85-89%; 1=<85%', periode:'Bulanan', arah:'tinggi' },
+        formula:'(Total Rekening Tertagih / Total Rekening Diterbitkan) × 100%', satuan:'%', bobot:'4%', target:'≥95%',
+        scoring:'5=≥98%; 4=95-97%; 3=90-94%; 2=85-89%; 1=<85%', periode:'Bulanan', arah:'tinggi' },
       { no:2, nama:'Indeks Kepuasan Pelanggan / IKP', desc:'Rata-rata skor kepuasan pelanggan dari survei berkala yang mengukur kualitas layanan PDAM.',
-        formula:'Rata-rata skor survei kepuasan (skala 0-100)', satuan:'Skor', bobot:'5%', target:'â‰¥80/100',
-        scoring:'5=â‰¥90; 4=80-89; 3=70-79; 2=60-69; 1=<60', periode:'Triwulanan', arah:'tinggi' },
+        formula:'Rata-rata skor survei kepuasan (skala 0-100)', satuan:'Skor', bobot:'5%', target:'≥80/100',
+        scoring:'5=≥90; 4=80-89; 3=70-79; 2=60-69; 1=<60', periode:'Triwulanan', arah:'tinggi' },
       { no:3, nama:'Rasio Pendapatan Operasional terhadap Biaya Operasional (OPEX Ratio)', desc:'Mengukur efisiensi operasional perusahaan: seberapa besar biaya yang dikeluarkan per rupiah pendapatan.',
-        formula:'(Biaya Operasional / Pendapatan Operasional) Ã— 100%', satuan:'%', bobot:'5%', target:'â‰¤85%',
-        scoring:'5=â‰¤70%; 4=70-85%; 3=85-95%; 2=95-105%; 1=>105%', periode:'Triwulanan', arah:'rendah' },
+        formula:'(Biaya Operasional / Pendapatan Operasional) × 100%', satuan:'%', bobot:'5%', target:'≤85%',
+        scoring:'5=≤70%; 4=70-85%; 3=85-95%; 2=95-105%; 1=>105%', periode:'Triwulanan', arah:'rendah' },
       { no:4, nama:'Return on Assets (ROA)', desc:'Kemampuan perusahaan menghasilkan laba dari seluruh aset yang dimiliki.',
-        formula:'(Laba Bersih / Total Aset) Ã— 100%', satuan:'%', bobot:'4%', target:'â‰¥3%',
-        scoring:'5=â‰¥8%; 4=5-7,9%; 3=3-4,9%; 2=1-2,9%; 1=<1%', periode:'Tahunan', arah:'tinggi' },
+        formula:'(Laba Bersih / Total Aset) × 100%', satuan:'%', bobot:'4%', target:'≥3%',
+        scoring:'5=≥8%; 4=5-7,9%; 3=3-4,9%; 2=1-2,9%; 1=<1%', periode:'Tahunan', arah:'tinggi' },
       { no:5, nama:'Rasio Likuiditas (Current Ratio)', desc:'Kemampuan perusahaan memenuhi kewajiban jangka pendek menggunakan aset lancar.',
-        formula:'(Aset Lancar / Kewajiban Lancar)', satuan:'Rasio', bobot:'3%', target:'â‰¥1,5x',
-        scoring:'5=â‰¥2,5x; 4=2-2,4x; 3=1,5-1,9x; 2=1-1,4x; 1=<1x', periode:'Triwulanan', arah:'tinggi' },
+        formula:'(Aset Lancar / Kewajiban Lancar)', satuan:'Rasio', bobot:'3%', target:'≥1,5x',
+        scoring:'5=≥2,5x; 4=2-2,4x; 3=1,5-1,9x; 2=1-1,4x; 1=<1x', periode:'Triwulanan', arah:'tinggi' },
       { no:6, nama:'Pertumbuhan Pendapatan Tarif Air (Revenue Growth)', desc:'Persentase pertumbuhan total pendapatan dari penjualan air dibandingkan periode yang sama tahun sebelumnya.',
-        formula:'((Pendapatan Tahun Ini - Pendapatan Tahun Lalu) / Pendapatan Tahun Lalu) Ã— 100%', satuan:'%', bobot:'3%', target:'â‰¥5%',
-        scoring:'5=â‰¥15%; 4=10-14%; 3=5-9%; 2=0-4%; 1=<0% (turun)', periode:'Tahunan', arah:'tinggi' },
+        formula:'((Pendapatan Tahun Ini - Pendapatan Tahun Lalu) / Pendapatan Tahun Lalu) × 100%', satuan:'%', bobot:'3%', target:'≥5%',
+        scoring:'5=≥15%; 4=10-14%; 3=5-9%; 2=0-4%; 1=<0% (turun)', periode:'Tahunan', arah:'tinggi' },
       { no:7, nama:'Realisasi Investasi & Belanja Modal (CapEx Realization)', desc:'Persentase realisasi program investasi dan belanja modal yang telah dianggarkan dalam RKAP.',
-        formula:'(Realisasi CapEx / Anggaran CapEx) Ã— 100%', satuan:'%', bobot:'3%', target:'â‰¥85%',
-        scoring:'5=â‰¥95%; 4=85-94%; 3=70-84%; 2=55-69%; 1=<55%', periode:'Tahunan', arah:'tinggi' },
-      { no:8, nama:'Efisiensi Biaya Energi per MÂ³ Air Diproduksi', desc:'Biaya energi listrik yang dikeluarkan untuk memproduksi setiap meter kubik air.',
-        formula:'Total Biaya Energi / Total Volume Air Diproduksi (mÂ³)', satuan:'Rp/mÂ³', bobot:'2%', target:'â‰¤1.800 Rp/mÂ³',
-        scoring:'5=â‰¤1.500; 4=1.500-1.800; 3=1.800-2.100; 2=2.100-2.500; 1=>2.500', periode:'Bulanan', arah:'rendah' },
+        formula:'(Realisasi CapEx / Anggaran CapEx) × 100%', satuan:'%', bobot:'3%', target:'≥85%',
+        scoring:'5=≥95%; 4=85-94%; 3=70-84%; 2=55-69%; 1=<55%', periode:'Tahunan', arah:'tinggi' },
+      { no:8, nama:'Efisiensi Biaya Energi per M³ Air Diproduksi', desc:'Biaya energi listrik yang dikeluarkan untuk memproduksi setiap meter kubik air.',
+        formula:'Total Biaya Energi / Total Volume Air Diproduksi (m³)', satuan:'Rp/m³', bobot:'2%', target:'≤1.800 Rp/m³',
+        scoring:'5=≤1.500; 4=1.500-1.800; 3=1.800-2.100; 2=2.100-2.500; 1=>2.500', periode:'Bulanan', arah:'rendah' },
       { no:9, nama:'Debt Service Coverage Ratio (DSCR)', desc:'Kemampuan perusahaan membayar kewajiban hutang menggunakan arus kas operasional.',
-        formula:'(EBITDA / Total Kewajiban Hutang Jatuh Tempo)', satuan:'Rasio', bobot:'1%', target:'â‰¥1,2x',
-        scoring:'5=â‰¥2x; 4=1,5-1,9x; 3=1,2-1,4x; 2=1,0-1,1x; 1=<1x', periode:'Tahunan', arah:'tinggi' },
+        formula:'(EBITDA / Total Kewajiban Hutang Jatuh Tempo)', satuan:'Rasio', bobot:'1%', target:'≥1,2x',
+        scoring:'5=≥2x; 4=1,5-1,9x; 3=1,2-1,4x; 2=1,0-1,1x; 1=<1x', periode:'Tahunan', arah:'tinggi' },
     ]
   },
   {
@@ -42,32 +42,32 @@ const PERSPEKTIF = [
     color: '#22c55e', colorLight: '#22c55e20', dotClass: 'dot-green',
     kpi: [
       { no:10, nama:'Kontinuitas Layanan Air (Service Continuity)', desc:'Rata-rata jam per hari air mengalir secara aktif ke sambungan pelanggan.',
-        formula:'Total jam aliran air / Jumlah hari dalam periode', satuan:'Jam/hari', bobot:'5%', target:'â‰¥20 jam/hari',
+        formula:'Total jam aliran air / Jumlah hari dalam periode', satuan:'Jam/hari', bobot:'5%', target:'≥20 jam/hari',
         scoring:'5=24 jam; 4=20-23 jam; 3=16-19 jam; 2=12-15 jam; 1=<12 jam', periode:'Bulanan', arah:'tinggi' },
       { no:11, nama:'Tingkat Penyelesaian Keluhan (Complaint Resolution Rate)', desc:'Persentase keluhan pelanggan yang berhasil diselesaikan dari total keluhan yang masuk dalam periode.',
-        formula:'(Keluhan Diselesaikan / Total Keluhan Masuk) Ã— 100%', satuan:'%', bobot:'4%', target:'â‰¥95%',
+        formula:'(Keluhan Diselesaikan / Total Keluhan Masuk) × 100%', satuan:'%', bobot:'4%', target:'≥95%',
         scoring:'5=100%; 4=95-99%; 3=85-94%; 2=75-84%; 1=<75%', periode:'Bulanan', arah:'tinggi' },
       { no:12, nama:'Waktu Penyelesaian Keluhan (Average Resolution Time)', desc:'Rata-rata waktu yang dibutuhkan untuk menyelesaikan satu keluhan pelanggan sejak diterima.',
-        formula:'Total waktu penyelesaian semua keluhan / Jumlah keluhan diselesaikan', satuan:'Jam', bobot:'3%', target:'â‰¤24 jam',
-        scoring:'5=â‰¤8 jam; 4=8-24 jam; 3=24-48 jam; 2=48-72 jam; 1=>72 jam', periode:'Bulanan', arah:'rendah' },
+        formula:'Total waktu penyelesaian semua keluhan / Jumlah keluhan diselesaikan', satuan:'Jam', bobot:'3%', target:'≤24 jam',
+        scoring:'5=≤8 jam; 4=8-24 jam; 3=24-48 jam; 2=48-72 jam; 1=>72 jam', periode:'Bulanan', arah:'rendah' },
       { no:13, nama:'Pertumbuhan Jumlah Pelanggan Baru (New Customer Growth)', desc:'Jumlah sambungan rumah (SR) baru yang berhasil dipasang dalam periode tertentu.',
-        formula:'Jumlah SR baru terpasang dalam periode', satuan:'SR/bulan', bobot:'3%', target:'â‰¥50 SR/bln',
-        scoring:'5=â‰¥100 SR; 4=75-99 SR; 3=50-74 SR; 2=25-49 SR; 1=<25 SR', periode:'Bulanan', arah:'tinggi' },
+        formula:'Jumlah SR baru terpasang dalam periode', satuan:'SR/bulan', bobot:'3%', target:'≥50 SR/bln',
+        scoring:'5=≥100 SR; 4=75-99 SR; 3=50-74 SR; 2=25-49 SR; 1=<25 SR', periode:'Bulanan', arah:'tinggi' },
       { no:14, nama:'Cakupan Pelayanan (Service Coverage)', desc:'Persentase penduduk dalam wilayah konsesi yang telah memperoleh akses layanan air PDAM.',
-        formula:'(Jumlah Penduduk Terlayani / Total Penduduk Wilayah Konsesi) Ã— 100%', satuan:'%', bobot:'4%', target:'â‰¥80%',
-        scoring:'5=â‰¥90%; 4=80-89%; 3=70-79%; 2=60-69%; 1=<60%', periode:'Tahunan', arah:'tinggi' },
+        formula:'(Jumlah Penduduk Terlayani / Total Penduduk Wilayah Konsesi) × 100%', satuan:'%', bobot:'4%', target:'≥80%',
+        scoring:'5=≥90%; 4=80-89%; 3=70-79%; 2=60-69%; 1=<60%', periode:'Tahunan', arah:'tinggi' },
       { no:15, nama:'Tingkat Akurasi Meteran (Meter Accuracy Rate)', desc:'Persentase meter air pelanggan yang berfungsi dengan baik dan memberikan pembacaan akurat.',
-        formula:'(Jumlah Meter Akurat / Total Meter Terpasang) Ã— 100%', satuan:'%', bobot:'2%', target:'â‰¥95%',
-        scoring:'5=â‰¥98%; 4=95-97%; 3=90-94%; 2=85-89%; 1=<85%', periode:'Triwulanan', arah:'tinggi' },
+        formula:'(Jumlah Meter Akurat / Total Meter Terpasang) × 100%', satuan:'%', bobot:'2%', target:'≥95%',
+        scoring:'5=≥98%; 4=95-97%; 3=90-94%; 2=85-89%; 1=<85%', periode:'Triwulanan', arah:'tinggi' },
       { no:16, nama:'Waktu Pemasangan SR Baru (Time to Connect)', desc:'Rata-rata waktu yang dibutuhkan sejak permohonan SR baru diajukan hingga air mengalir.',
-        formula:'Total hari proses seluruh SR baru / Jumlah SR baru dipasang', satuan:'Hari kerja', bobot:'2%', target:'â‰¤10 hari',
-        scoring:'5=â‰¤5 hari; 4=6-10 hari; 3=11-15 hari; 2=16-20 hari; 1=>20 hari', periode:'Bulanan', arah:'rendah' },
+        formula:'Total hari proses seluruh SR baru / Jumlah SR baru dipasang', satuan:'Hari kerja', bobot:'2%', target:'≤10 hari',
+        scoring:'5=≤5 hari; 4=6-10 hari; 3=11-15 hari; 2=16-20 hari; 1=>20 hari', periode:'Bulanan', arah:'rendah' },
       { no:17, nama:'Net Promoter Score (NPS)', desc:'Mengukur loyalitas pelanggan - seberapa besar kemungkinan pelanggan merekomendasikan layanan PDAM.',
-        formula:'% Promoter (skor 9-10) - % Detractor (skor 0-6)', satuan:'Skor', bobot:'1%', target:'â‰¥40',
-        scoring:'5=â‰¥60; 4=40-59; 3=20-39; 2=0-19; 1=<0 (Negatif)', periode:'Tahunan', arah:'tinggi' },
+        formula:'% Promoter (skor 9-10) - % Detractor (skor 0-6)', satuan:'Skor', bobot:'1%', target:'≥40',
+        scoring:'5=≥60; 4=40-59; 3=20-39; 2=0-19; 1=<0 (Negatif)', periode:'Tahunan', arah:'tinggi' },
       { no:18, nama:'Jumlah Pelanggan Aktif vs. Target', desc:'Membandingkan total pelanggan aktif terhadap target yang ditetapkan dalam RKAP.',
-        formula:'(Jumlah Pelanggan Aktif / Target Pelanggan) Ã— 100%', satuan:'%', bobot:'1%', target:'â‰¥100%',
-        scoring:'5=â‰¥105%; 4=100-104%; 3=90-99%; 2=80-89%; 1=<80%', periode:'Triwulanan', arah:'tinggi' },
+        formula:'(Jumlah Pelanggan Aktif / Target Pelanggan) × 100%', satuan:'%', bobot:'1%', target:'≥100%',
+        scoring:'5=≥105%; 4=100-104%; 3=90-99%; 2=80-89%; 1=<80%', periode:'Triwulanan', arah:'tinggi' },
     ]
   },
   {
@@ -75,40 +75,40 @@ const PERSPEKTIF = [
     color: '#f97316', colorLight: '#f9731620', dotClass: 'dot-orange',
     kpi: [
       { no:19, nama:'Non-Revenue Water / Air Tak Berekening (NRW/ATR)', desc:'Persentase air diproduksi yang tidak menghasilkan pendapatan akibat kebocoran fisik, pencurian, atau kesalahan administrasi.',
-        formula:'((Air Diproduksi - Air Berekening) / Air Diproduksi) Ã— 100%', satuan:'%', bobot:'6%', target:'â‰¤20%',
-        scoring:'5=â‰¤15%; 4=15-20%; 3=20-25%; 2=25-30%; 1=>30%', periode:'Bulanan', arah:'rendah' },
+        formula:'((Air Diproduksi - Air Berekening) / Air Diproduksi) × 100%', satuan:'%', bobot:'6%', target:'≤20%',
+        scoring:'5=≤15%; 4=15-20%; 3=20-25%; 2=25-30%; 1=>30%', periode:'Bulanan', arah:'rendah' },
       { no:20, nama:'Kualitas Air - Kepatuhan Baku Mutu', desc:'Persentase sampel uji air yang memenuhi standar Permenkes No.2/2023 tentang persyaratan kualitas air minum.',
-        formula:'(Sampel Lulus Uji / Total Sampel Diuji) Ã— 100%', satuan:'%', bobot:'6%', target:'100%',
+        formula:'(Sampel Lulus Uji / Total Sampel Diuji) × 100%', satuan:'%', bobot:'6%', target:'100%',
         scoring:'5=100%; 4=98-99%; 3=95-97%; 2=90-94%; 1=<90%', periode:'Bulanan', arah:'tinggi' },
       { no:21, nama:'Efisiensi Produksi (Production Efficiency)', desc:'Rasio volume air yang berhasil didistribusikan ke jaringan terhadap kapasitas produksi terpasang.',
-        formula:'(Volume Air Produksi Aktual / Kapasitas Produksi Terpasang) Ã— 100%', satuan:'%', bobot:'4%', target:'â‰¥85%',
-        scoring:'5=â‰¥95%; 4=85-94%; 3=75-84%; 2=65-74%; 1=<65%', periode:'Bulanan', arah:'tinggi' },
+        formula:'(Volume Air Produksi Aktual / Kapasitas Produksi Terpasang) × 100%', satuan:'%', bobot:'4%', target:'≥85%',
+        scoring:'5=≥95%; 4=85-94%; 3=75-84%; 2=65-74%; 1=<65%', periode:'Bulanan', arah:'tinggi' },
       { no:22, nama:'Tingkat Ketersediaan Pompa & Peralatan', desc:'Persentase waktu pompa dan peralatan utama beroperasi normal dibandingkan total waktu operasional yang direncanakan.',
-        formula:'((Total Jam Rencana - Jam Downtime) / Total Jam Rencana) Ã— 100%', satuan:'%', bobot:'4%', target:'â‰¥95%',
-        scoring:'5=â‰¥98%; 4=95-97%; 3=90-94%; 2=85-89%; 1=<85%', periode:'Bulanan', arah:'tinggi' },
+        formula:'((Total Jam Rencana - Jam Downtime) / Total Jam Rencana) × 100%', satuan:'%', bobot:'4%', target:'≥95%',
+        scoring:'5=≥98%; 4=95-97%; 3=90-94%; 2=85-89%; 1=<85%', periode:'Bulanan', arah:'tinggi' },
       { no:23, nama:'Mean Time to Repair (MTTR) - Kebocoran Pipa', desc:'Rata-rata waktu yang dibutuhkan tim lapangan untuk merespon dan memperbaiki laporan kebocoran pipa.',
-        formula:'Total jam perbaikan seluruh kebocoran / Jumlah kasus kebocoran', satuan:'Jam', bobot:'3%', target:'â‰¤4 jam',
-        scoring:'5=â‰¤2 jam; 4=2-4 jam; 3=4-6 jam; 2=6-12 jam; 1=>12 jam', periode:'Bulanan', arah:'rendah' },
+        formula:'Total jam perbaikan seluruh kebocoran / Jumlah kasus kebocoran', satuan:'Jam', bobot:'3%', target:'≤4 jam',
+        scoring:'5=≤2 jam; 4=2-4 jam; 3=4-6 jam; 2=6-12 jam; 1=>12 jam', periode:'Bulanan', arah:'rendah' },
       { no:24, nama:'Frekuensi Gangguan Distribusi', desc:'Jumlah gangguan tidak terencana pada sistem distribusi air yang menyebabkan aliran terhenti per 100 SR.',
-        formula:'(Jumlah Gangguan / Jumlah SR Aktif) Ã— 100', satuan:'Kasus/100 SR', bobot:'3%', target:'â‰¤2 kasus/bln',
-        scoring:'5=â‰¤0,5; 4=0,5-2; 3=2-4; 2=4-6; 1=>6', periode:'Bulanan', arah:'rendah' },
+        formula:'(Jumlah Gangguan / Jumlah SR Aktif) × 100', satuan:'Kasus/100 SR', bobot:'3%', target:'≤2 kasus/bln',
+        scoring:'5=≤0,5; 4=0,5-2; 3=2-4; 2=4-6; 1=>6', periode:'Bulanan', arah:'rendah' },
       { no:25, nama:'Tekanan Air Minimum di Ujung Jaringan', desc:'Tekanan air minimum yang terukur di titik ujung jaringan distribusi (titik kritis). Standar minimal 1,0 bar.',
-        formula:'Rata-rata tekanan minimum terukur di titik kritis (sampling)', satuan:'Bar', bobot:'2%', target:'â‰¥1,0 Bar',
-        scoring:'5=â‰¥1,5 bar; 4=1,0-1,4 bar; 3=0,7-0,9 bar; 2=0,5-0,6 bar; 1=<0,5 bar', periode:'Bulanan', arah:'tinggi' },
+        formula:'Rata-rata tekanan minimum terukur di titik kritis (sampling)', satuan:'Bar', bobot:'2%', target:'≥1,0 Bar',
+        scoring:'5=≥1,5 bar; 4=1,0-1,4 bar; 3=0,7-0,9 bar; 2=0,5-0,6 bar; 1=<0,5 bar', periode:'Bulanan', arah:'tinggi' },
       { no:26, nama:'Realisasi Program Pemeliharaan Rutin', desc:'Persentase program pemeliharaan preventif yang terlaksana sesuai jadwal yang telah ditetapkan.',
-        formula:'(PM Terlaksana / PM Direncanakan) Ã— 100%', satuan:'%', bobot:'2%', target:'â‰¥90%',
-        scoring:'5=â‰¥95%; 4=90-94%; 3=80-89%; 2=70-79%; 1=<70%', periode:'Triwulanan', arah:'tinggi' },
+        formula:'(PM Terlaksana / PM Direncanakan) × 100%', satuan:'%', bobot:'2%', target:'≥90%',
+        scoring:'5=≥95%; 4=90-94%; 3=80-89%; 2=70-79%; 1=<70%', periode:'Triwulanan', arah:'tinggi' },
       { no:27, nama:'Cakupan Wilayah Pengambilan Sampel Air', desc:'Persentase titik pengambilan sampel uji kualitas air yang sudah tercakup dari seluruh titik wajib sesuai regulasi.',
-        formula:'(Titik Sampling Tercakup / Total Titik Wajib) Ã— 100%', satuan:'%', bobot:'2%', target:'100%',
+        formula:'(Titik Sampling Tercakup / Total Titik Wajib) × 100%', satuan:'%', bobot:'2%', target:'100%',
         scoring:'5=100%; 4=95-99%; 3=85-94%; 2=75-84%; 1=<75%', periode:'Bulanan', arah:'tinggi' },
       { no:28, nama:'Efektivitas Penggunaan Bahan Kimia', desc:'Mengukur ketepatan dosis bahan kimia (klorin, koagulan, dll.) dibandingkan dengan standar proses.',
-        formula:'(Pemakaian Kimia Aktual / Standar Pemakaian Kimia) Ã— 100%', satuan:'%', bobot:'2%', target:'95-105%',
+        formula:'(Pemakaian Kimia Aktual / Standar Pemakaian Kimia) × 100%', satuan:'%', bobot:'2%', target:'95-105%',
         scoring:'5=98-102%; 4=95-97% atau 103-105%; 3=90-94%; 2=85-89%; 1=<85% atau >115%', periode:'Bulanan', arah:'range' },
       { no:29, nama:'Penurunan Kasus Kerusakan Pipa', desc:'Persentase penurunan jumlah kasus kerusakan pipa dibandingkan periode yang sama tahun sebelumnya.',
-        formula:'((Kasus Tahun Lalu - Kasus Tahun Ini) / Kasus Tahun Lalu) Ã— 100%', satuan:'%', bobot:'1%', target:'â‰¥10% turun',
-        scoring:'5=â‰¥20% turun; 4=10-19% turun; 3=0-9% turun; 2=0-9% naik; 1=>10% naik', periode:'Tahunan', arah:'tinggi' },
+        formula:'((Kasus Tahun Lalu - Kasus Tahun Ini) / Kasus Tahun Lalu) × 100%', satuan:'%', bobot:'1%', target:'≥10% turun',
+        scoring:'5=≥20% turun; 4=10-19% turun; 3=0-9% turun; 2=0-9% naik; 1=>10% naik', periode:'Tahunan', arah:'tinggi' },
       { no:30, nama:'Kepatuhan Laporan Operasional', desc:'Ketepatan waktu dan kelengkapan penyerahan laporan operasional harian, bulanan, dan triwulanan.',
-        formula:'(Laporan Tepat Waktu & Lengkap / Total Laporan Wajib) Ã— 100%', satuan:'%', bobot:'1%', target:'100%',
+        formula:'(Laporan Tepat Waktu & Lengkap / Total Laporan Wajib) × 100%', satuan:'%', bobot:'1%', target:'100%',
         scoring:'5=100%; 4=95-99%; 3=85-94%; 2=75-84%; 1=<75%', periode:'Bulanan', arah:'tinggi' },
     ]
   },
@@ -117,26 +117,26 @@ const PERSPEKTIF = [
     color: '#8b5cf6', colorLight: '#8b5cf620', dotClass: 'dot-purple',
     kpi: [
       { no:31, nama:'Tingkat Kehadiran Karyawan (Attendance Rate)', desc:'Persentase hari kerja efektif karyawan yang hadir dari total hari kerja yang dijadwalkan.',
-        formula:'(Hari Hadir Aktual / Hari Kerja Dijadwalkan) Ã— 100%', satuan:'%', bobot:'3%', target:'â‰¥97%',
-        scoring:'5=â‰¥99%; 4=97-98,9%; 3=94-96,9%; 2=90-93,9%; 1=<90%', periode:'Bulanan', arah:'tinggi' },
+        formula:'(Hari Hadir Aktual / Hari Kerja Dijadwalkan) × 100%', satuan:'%', bobot:'3%', target:'≥97%',
+        scoring:'5=≥99%; 4=97-98,9%; 3=94-96,9%; 2=90-93,9%; 1=<90%', periode:'Bulanan', arah:'tinggi' },
       { no:32, nama:'Realisasi Jam Pelatihan & Pengembangan per Karyawan', desc:'Jumlah jam pelatihan teknis, manajerial, atau pengembangan soft skill yang diikuti karyawan per tahun.',
-        formula:'Total jam pelatihan karyawan bersangkutan per tahun', satuan:'Jam/tahun', bobot:'2%', target:'â‰¥40 jam/tahun',
-        scoring:'5=â‰¥60 jam; 4=40-59 jam; 3=25-39 jam; 2=15-24 jam; 1=<15 jam', periode:'Tahunan', arah:'tinggi' },
+        formula:'Total jam pelatihan karyawan bersangkutan per tahun', satuan:'Jam/tahun', bobot:'2%', target:'≥40 jam/tahun',
+        scoring:'5=≥60 jam; 4=40-59 jam; 3=25-39 jam; 2=15-24 jam; 1=<15 jam', periode:'Tahunan', arah:'tinggi' },
       { no:33, nama:'Pencapaian Target Individu (Individual KPI Achievement)', desc:'Rata-rata persentase pencapaian target KPI individu terhadap seluruh indikator yang ditetapkan.',
-        formula:'Rata-rata (Realisasi / Target) Ã— 100% untuk semua KPI individu', satuan:'%', bobot:'3%', target:'â‰¥90%',
-        scoring:'5=â‰¥100%; 4=90-99%; 3=75-89%; 2=60-74%; 1=<60%', periode:'Triwulanan', arah:'tinggi' },
+        formula:'Rata-rata (Realisasi / Target) × 100% untuk semua KPI individu', satuan:'%', bobot:'3%', target:'≥90%',
+        scoring:'5=≥100%; 4=90-99%; 3=75-89%; 2=60-74%; 1=<60%', periode:'Triwulanan', arah:'tinggi' },
       { no:34, nama:'Indeks Disiplin Kerja', desc:'Mengukur kepatuhan karyawan terhadap peraturan perusahaan: ketepatan waktu, SOP, tata tertib, dan etika kerja.',
-        formula:'100 - (Jumlah Pelanggaran Ã— Bobot Pelanggaran)', satuan:'Skor', bobot:'2%', target:'â‰¥90',
+        formula:'100 - (Jumlah Pelanggaran × Bobot Pelanggaran)', satuan:'Skor', bobot:'2%', target:'≥90',
         scoring:'5=95-100; 4=90-94; 3=80-89; 2=70-79; 1=<70', periode:'Triwulanan', arah:'tinggi' },
       { no:35, nama:'Tingkat Turnover Karyawan (Voluntary Turnover Rate)', desc:'Persentase karyawan yang mengundurkan diri dari total karyawan aktif.',
-        formula:'(Karyawan Mengundurkan Diri / Rata-rata Karyawan Aktif) Ã— 100%', satuan:'%', bobot:'2%', target:'â‰¤5%/tahun',
-        scoring:'5=â‰¤2%; 4=2-5%; 3=5-8%; 2=8-12%; 1=>12%', periode:'Tahunan', arah:'rendah' },
+        formula:'(Karyawan Mengundurkan Diri / Rata-rata Karyawan Aktif) × 100%', satuan:'%', bobot:'2%', target:'≤5%/tahun',
+        scoring:'5=≤2%; 4=2-5%; 3=5-8%; 2=8-12%; 1=>12%', periode:'Tahunan', arah:'rendah' },
       { no:36, nama:'Indeks Kepuasan Karyawan (Employee Engagement / eNPS)', desc:'Mengukur tingkat keterlibatan dan kepuasan karyawan berdasarkan survei internal tahunan.',
-        formula:'Rata-rata skor survei engagement (skala 1-100) atau eNPS', satuan:'Skor', bobot:'2%', target:'â‰¥70',
-        scoring:'5=â‰¥85; 4=70-84; 3=55-69; 2=40-54; 1=<40', periode:'Tahunan', arah:'tinggi' },
+        formula:'Rata-rata skor survei engagement (skala 1-100) atau eNPS', satuan:'Skor', bobot:'2%', target:'≥70',
+        scoring:'5=≥85; 4=70-84; 3=55-69; 2=40-54; 1=<40', periode:'Tahunan', arah:'tinggi' },
       { no:37, nama:'Sertifikasi & Kompetensi Teknis', desc:'Persentase karyawan teknis yang memiliki sertifikasi kompetensi yang relevan dan masih berlaku.',
-        formula:'(Karyawan Bersertifikat / Total Karyawan Teknis) Ã— 100%', satuan:'%', bobot:'1%', target:'â‰¥80%',
-        scoring:'5=â‰¥90%; 4=80-89%; 3=70-79%; 2=60-69%; 1=<60%', periode:'Tahunan', arah:'tinggi' },
+        formula:'(Karyawan Bersertifikat / Total Karyawan Teknis) × 100%', satuan:'%', bobot:'1%', target:'≥80%',
+        scoring:'5=≥90%; 4=80-89%; 3=70-79%; 2=60-69%; 1=<60%', periode:'Tahunan', arah:'tinggi' },
     ]
   },
   {
@@ -144,25 +144,25 @@ const PERSPEKTIF = [
     color: '#14b8a6', colorLight: '#14b8a620', dotClass: 'dot-teal',
     kpi: [
       { no:38, nama:'Implementasi Digitalisasi Layanan', desc:'Mengukur tingkat adopsi sistem digital dalam layanan pelanggan, operasional, dan administrasi (SCADA, e-payment, mobile app).',
-        formula:'(Fitur/Sistem Digital Aktif / Target Roadmap Digital) Ã— 100%', satuan:'%', bobot:'3%', target:'â‰¥80%',
-        scoring:'5=â‰¥100%; 4=80-99%; 3=60-79%; 2=40-59%; 1=<40%', periode:'Tahunan', arah:'tinggi' },
+        formula:'(Fitur/Sistem Digital Aktif / Target Roadmap Digital) × 100%', satuan:'%', bobot:'3%', target:'≥80%',
+        scoring:'5=≥100%; 4=80-99%; 3=60-79%; 2=40-59%; 1=<40%', periode:'Tahunan', arah:'tinggi' },
       { no:39, nama:'Jumlah Inovasi / Perbaikan Proses (Continuous Improvement)', desc:'Jumlah proposal inovasi, ide perbaikan proses, atau proyek efisiensi yang diusulkan dan diimplementasikan.',
-        formula:'Jumlah inovasi terimplementasi dalam setahun', satuan:'Inovasi', bobot:'2%', target:'â‰¥2 per unit/tahun',
-        scoring:'5=â‰¥5; 4=3-4; 3=2; 2=1; 1=0', periode:'Tahunan', arah:'tinggi' },
+        formula:'Jumlah inovasi terimplementasi dalam setahun', satuan:'Inovasi', bobot:'2%', target:'≥2 per unit/tahun',
+        scoring:'5=≥5; 4=3-4; 3=2; 2=1; 1=0', periode:'Tahunan', arah:'tinggi' },
       { no:40, nama:'Tingkat Kepatuhan Regulasi & Perizinan', desc:'Persentase kewajiban regulasi, perizinan, dan standar teknis yang terpenuhi tepat waktu.',
-        formula:'(Kewajiban Terpenuhi / Total Kewajiban Regulasi) Ã— 100%', satuan:'%', bobot:'2%', target:'100%',
+        formula:'(Kewajiban Terpenuhi / Total Kewajiban Regulasi) × 100%', satuan:'%', bobot:'2%', target:'100%',
         scoring:'5=100%; 4=95-99%; 3=85-94%; 2=75-84%; 1=<75%', periode:'Triwulanan', arah:'tinggi' },
-      { no:41, nama:'Pengurangan Emisi & Jejak Lingkungan', desc:'Mengukur upaya pengurangan dampak lingkungan: emisi COâ‚‚, penggunaan energi terbarukan, pengelolaan limbah sludge.',
-        formula:'(Realisasi Target Lingkungan / Target Rencana Lingkungan) Ã— 100%', satuan:'%', bobot:'2%', target:'â‰¥90%',
-        scoring:'5=â‰¥100%; 4=90-99%; 3=80-89%; 2=70-79%; 1=<70%', periode:'Tahunan', arah:'tinggi' },
+      { no:41, nama:'Pengurangan Emisi & Jejak Lingkungan', desc:'Mengukur upaya pengurangan dampak lingkungan: emisi CO₂, penggunaan energi terbarukan, pengelolaan limbah sludge.',
+        formula:'(Realisasi Target Lingkungan / Target Rencana Lingkungan) × 100%', satuan:'%', bobot:'2%', target:'≥90%',
+        scoring:'5=≥100%; 4=90-99%; 3=80-89%; 2=70-79%; 1=<70%', periode:'Tahunan', arah:'tinggi' },
       { no:42, nama:'Program CSR & Pemberdayaan Masyarakat', desc:'Persentase program tanggung jawab sosial perusahaan yang terlaksana dari rencana CSR tahunan.',
-        formula:'(Program CSR Terlaksana / Program CSR Direncanakan) Ã— 100%', satuan:'%', bobot:'1%', target:'â‰¥90%',
-        scoring:'5=â‰¥100%; 4=90-99%; 3=75-89%; 2=60-74%; 1=<60%', periode:'Tahunan', arah:'tinggi' },
+        formula:'(Program CSR Terlaksana / Program CSR Direncanakan) × 100%', satuan:'%', bobot:'1%', target:'≥90%',
+        scoring:'5=≥100%; 4=90-99%; 3=75-89%; 2=60-74%; 1=<60%', periode:'Tahunan', arah:'tinggi' },
     ]
   }
 ];
 
-// â”€â”€â”€ MONITORING DATA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── MONITORING DATA ──────────────────────────────────────────
 let monitoringData = [
   { periode:'Jan 2025', nrw:25.1, kualitas:99.2, penagihan:94.5, ikp:79, kehadiran:96.8 },
   { periode:'Feb 2025', nrw:24.7, kualitas:99.5, penagihan:95.1, ikp:80, kehadiran:97.1 },
@@ -175,12 +175,12 @@ let monitoringData = [
   { periode:'Sep 2025', nrw:23.0, kualitas:99.8, penagihan:96.0, ikp:82, kehadiran:97.5 },
 ];
 
-// â”€â”€â”€ CHART INSTANCES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CHART INSTANCES ──────────────────────────────────────────
 let chartInstances = {};
 
 
 
-// â”€â”€â”€ DATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── DATE ─────────────────────────────────────────────────────
 function initDate() {
   const d = new Date();
   document.getElementById('currentDate').textContent =
@@ -189,7 +189,7 @@ function initDate() {
   document.getElementById('tglValidasi').value = d.toISOString().split('T')[0];
 }
 
-// â”€â”€â”€ NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── NAVIGATION ───────────────────────────────────────────────
 const PAGES = { dashboard:'Dashboard Monitoring KPI', form:'Form Penilaian KPI', 'kpi-list':'Daftar KPI Lengkap', monitoring:'Monitoring Kinerja', riwayat:'Riwayat Penilaian KPI', panduan:'Panduan Penggunaan' };
 
 function initNavigation() {
@@ -239,7 +239,7 @@ function initSidebarPerspektifLinks() {
   });
 }
 
-// â”€â”€â”€ DASHBOARD CHARTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── DASHBOARD CHARTS ─────────────────────────────────────────
 const CHART_DEFAULTS = {
   responsive: true, maintainAspectRatio: false,
   plugins: { legend: { labels: { color: '#94a3b8', font: { family: 'Inter', size: 11 }, boxWidth: 10, padding: 14 } } }
@@ -313,12 +313,12 @@ function refreshDashboardCharts() {
   Object.values(chartInstances).forEach(c => { if (c && c.update) c.update(); });
 }
 
-// â”€â”€â”€ FORM TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── FORM TABLE ───────────────────────────────────────────────
 function buildFormTable() {
   const tbody = document.getElementById('formTableBody');
   let html = '';
   PERSPEKTIF.forEach(p => {
-    html += `<tr class="perspektif-header"><td colspan="9">Perspektif: ${p.label} â€” Bobot ${p.bobot}</td></tr>`;
+    html += `<tr class="perspektif-header"><td colspan="9">Perspektif: ${p.label} — Bobot ${p.bobot}</td></tr>`;
     p.kpi.forEach(k => {
       const bobotNum = parseFloat(k.bobot);
       html += `<tr data-no="${k.no}" data-bobot="${bobotNum}">
@@ -329,10 +329,10 @@ function buildFormTable() {
         </td>
         <td><span style="font-size:12px;color:#94a3b8">${k.target}</span></td>
         <td><input type="number" step="0.01" placeholder="0" class="realisasi-input" id="r_${k.no}" oninput="calcRow(${k.no})" /></td>
-        <td><div class="capai-display" id="capai_${k.no}">â€”</div></td>
-        <td><div class="nilai-display" id="nilai_${k.no}" style="color:#64748b">â€”</div></td>
+        <td><div class="capai-display" id="capai_${k.no}">—</div></td>
+        <td><div class="nilai-display" id="nilai_${k.no}" style="color:#64748b">—</div></td>
         <td><div class="bobot-display">${k.bobot}</div></td>
-        <td><div class="tertimbang-display" id="tert_${k.no}" style="color:#64748b">â€”</div></td>
+        <td><div class="tertimbang-display" id="tert_${k.no}" style="color:#64748b">—</div></td>
         <td><input type="text" placeholder="Bukti/catatan..." id="cat_${k.no}" style="font-size:11px" /></td>
       </tr>`;
     });
@@ -346,10 +346,10 @@ function calcRow(no) {
   const realisasiEl = document.getElementById('r_' + no);
   const val = parseFloat(realisasiEl.value);
   if (isNaN(val)) {
-    document.getElementById('capai_' + no).textContent = 'â€”';
-    document.getElementById('nilai_' + no).textContent = 'â€”';
+    document.getElementById('capai_' + no).textContent = '—';
+    document.getElementById('nilai_' + no).textContent = '—';
     document.getElementById('nilai_' + no).style.color = TICK_COLOR;
-    document.getElementById('tert_' + no).textContent = 'â€”';
+    document.getElementById('tert_' + no).textContent = '—';
     return;
   }
   const capai = calcCapai(kpi, val);
@@ -409,12 +409,12 @@ function hitungTotal() {
   let total = 0, count = 0;
   getAllKpi().forEach(k => {
     const tEl = document.getElementById('tert_' + k.no);
-    if (tEl && tEl.textContent !== 'â€”') {
+    if (tEl && tEl.textContent !== '—') {
       total += parseFloat(tEl.textContent) || 0;
       count++;
     }
   });
-  if (count === 0) { showToast('âš  Isi minimal satu realisasi KPI terlebih dahulu!', 'warn'); return; }
+  if (count === 0) { showToast('⚠️ Isi minimal satu realisasi KPI terlebih dahulu!', 'warn'); return; }
   const rounded = total.toFixed(2);
   document.getElementById('totalNilai').textContent = rounded;
   const predikat = getPredikat(total);
@@ -433,14 +433,14 @@ function hitungTotal() {
   buildHasilChart(total);
   buildBreakdownSection();
   hasilSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  showToast('âœ“ Perhitungan KPI selesai! Total: ' + rounded);
+  showToast('✓ Perhitungan KPI selesai! Total: ' + rounded);
 }
 
 function getPredikat(score) {
   if (score >= 4.5) return { label:'â­ SANGAT BAIK', color:'#22c55e', desc:'Kinerja melampaui target secara konsisten. Karyawan layak dipertimbangkan untuk promosi atau penghargaan.' };
-  if (score >= 3.5) return { label:'âœ… BAIK', color:'#84cc16', desc:'Kinerja memenuhi dan umumnya melampaui target. Lanjutkan program pengembangan yang ada.' };
-  if (score >= 2.5) return { label:'ðŸ”µ CUKUP', color:'#eab308', desc:'Kinerja memenuhi ekspektasi minimum. Perlu program coaching dan action plan perbaikan.' };
-  if (score >= 1.5) return { label:'âš  KURANG', color:'#f97316', desc:'Kinerja di bawah ekspektasi. Perlu program pembinaan intensif dan monitoring ketat.' };
+  if (score >= 3.5) return { label:'✅ BAIK', color:'#84cc16', desc:'Kinerja memenuhi dan umumnya melampaui target. Lanjutkan program pengembangan yang ada.' };
+  if (score >= 2.5) return { label:'🔵 CUKUP', color:'#eab308', desc:'Kinerja memenuhi ekspektasi minimum. Perlu program coaching dan action plan perbaikan.' };
+  if (score >= 1.5) return { label:'⚠️ KURANG', color:'#f97316', desc:'Kinerja di bawah ekspektasi. Perlu program pembinaan intensif dan monitoring ketat.' };
   return { label:'âŒ SANGAT KURANG', color:'#ef4444', desc:'Kinerja sangat jauh dari target. Perlu evaluasi menyeluruh termasuk kemungkinan mutasi atau sanksi.' };
 }
 
@@ -466,18 +466,18 @@ function buildHasilChart(score) {
 function resetForm() {
   document.querySelectorAll('.realisasi-input').forEach(i => i.value = '');
   document.querySelectorAll('[id^="capai_"],[id^="nilai_"],[id^="tert_"]').forEach(el => {
-    el.textContent = 'â€”';
+    el.textContent = '—';
     el.style.color = TICK_COLOR;
   });
-  document.getElementById('totalNilai').textContent = 'â€”';
-  document.getElementById('predikatKinerja').textContent = 'â€”';
+  document.getElementById('totalNilai').textContent = '—';
+  document.getElementById('predikatKinerja').textContent = '—';
   document.getElementById('hasilSection').style.display = 'none';
   const bs = document.getElementById('breakdownSection');
   if (bs) bs.style.display = 'none';
-  showToast('âœ“ Form telah direset.');
+  showToast('✓ Form telah direset.');
 }
 
-// â”€â”€â”€ KPI LIST PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── KPI LIST PAGE ────────────────────────────────────────────
 function buildKpiList() {
   const container = document.getElementById('kpiListContainer');
   let html = '';
@@ -488,7 +488,7 @@ function buildKpiList() {
         <span class="ph-title" style="color:${p.color}">${p.label}</span>
         <span class="ph-count">${p.kpi.length} KPI</span>
         <span class="ph-bobot" style="color:${p.color}">${p.bobot}</span>
-        <span class="ph-toggle">â–¾</span>
+        <span class="ph-toggle">▾</span>
       </div>
       <div class="kpi-cards-grid" id="pgc_${p.id}">`;
     p.kpi.forEach(k => {
@@ -501,9 +501,9 @@ function buildKpiList() {
         <div class="kpi-card-desc">${k.desc}</div>
         <div class="kpi-card-meta">
           <span class="kpi-meta-item">ðŸ“ ${k.satuan}</span>
-          <span class="kpi-meta-item">ðŸŽ¯ ${k.target}</span>
-          <span class="kpi-meta-item">ðŸ—“ ${k.periode}</span>
-          <span class="kpi-meta-item">${k.arah === 'tinggi' ? 'â†‘ Lebih tinggi lebih baik' : k.arah === 'rendah' ? 'â†“ Lebih rendah lebih baik' : 'â†” Rentang optimal'}</span>
+          <span class="kpi-meta-item">🎯 ${k.target}</span>
+          <span class="kpi-meta-item">📆 ${k.periode}</span>
+          <span class="kpi-meta-item">${k.arah === 'tinggi' ? '↑ Lebih tinggi lebih baik' : k.arah === 'rendah' ? '↓ Lebih rendah lebih baik' : '↔ Rentang optimal'}</span>
         </div>
         <div class="kpi-card-scoring"><strong>ðŸ“Š Panduan Scoring:</strong>${k.scoring}</div>
         <div style="margin-top:8px;font-size:11px;color:#64748b"><strong style="color:#94a3b8">Formula:</strong> ${k.formula}</div>
@@ -540,7 +540,7 @@ function filterKpiList() {
   });
 }
 
-// â”€â”€â”€ MONITORING TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── MONITORING TABLE ─────────────────────────────────────────
 function buildMonitoringTable() {
   const tbody = document.getElementById('monitoringBody');
   tbody.innerHTML = monitoringData.map((d, i) => {
@@ -555,8 +555,8 @@ function buildMonitoringTable() {
       <td><span style="color:${d.penagihan>=95?'#22c55e':'#f97316'};font-weight:700">${d.penagihan}%</span></td>
       <td><span style="color:${d.ikp>=80?'#22c55e':'#eab308'};font-weight:700">${d.ikp}</span></td>
       <td><span style="color:${d.kehadiran>=97?'#22c55e':'#eab308'};font-weight:700">${d.kehadiran}%</span></td>
-      <td><span class="status-badge ${allOk?'good':'warning'}">${allOk?'âœ“ Memenuhi':'âš  Perhatian'}</span></td>
-      <td><button class="btn-delete" onclick="deleteMonData(${i})" title="Hapus">ðŸ—‘</button></td>
+      <td><span class="status-badge ${allOk?'good':'warning'}">${allOk?'✓ Memenuhi':'⚠️ Perhatian'}</span></td>
+      <td><button class="btn-delete" onclick="deleteMonData(${i})" title="Hapus">🗑</button></td>
     </tr>`;
   }).join('');
   document.getElementById('dataCount').textContent = monitoringData.length + ' entri data';
@@ -567,10 +567,10 @@ function deleteMonData(i) {
   monitoringData.splice(i, 1);
   buildMonitoringTable();
   refreshMonitoringCharts();
-  showToast('âœ“ Data berhasil dihapus.');
+  showToast('✓ Data berhasil dihapus.');
 }
 
-// â”€â”€â”€ MONITORING CHARTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── MONITORING CHARTS ────────────────────────────────────────
 function initMonitoringCharts() {
   const labels = monitoringData.map(d => d.periode);
 
@@ -580,7 +580,7 @@ function initMonitoringCharts() {
       labels,
       datasets: [
         { label:'NRW (%)', data:monitoringData.map(d=>d.nrw), borderColor:'#ef4444', backgroundColor:'#ef444420', tension:.4, fill:true, pointRadius:4 },
-        { label:'Target â‰¤20%', data:monitoringData.map(()=>20), borderColor:'#22c55e80', borderDash:[6,3], pointRadius:0 }
+        { label:'Target ≤20%', data:monitoringData.map(()=>20), borderColor:'#22c55e80', borderDash:[6,3], pointRadius:0 }
       ]
     },
     options: { ...CHART_DEFAULTS, scales: { x:{ticks:{color:TICK_COLOR},grid:{color:GRID_COLOR}}, y:{ticks:{color:TICK_COLOR},grid:{color:GRID_COLOR}} } }
@@ -604,7 +604,7 @@ function initMonitoringCharts() {
       labels,
       datasets: [
         { label:'Penagihan (%)', data:monitoringData.map(d=>d.penagihan), borderColor:'#8b5cf6', backgroundColor:'#8b5cf620', tension:.4, fill:true, pointRadius:4 },
-        { label:'Target â‰¥95%', data:monitoringData.map(()=>95), borderColor:'#22c55e80', borderDash:[6,3], pointRadius:0 }
+        { label:'Target ≥95%', data:monitoringData.map(()=>95), borderColor:'#22c55e80', borderDash:[6,3], pointRadius:0 }
       ]
     },
     options: { ...CHART_DEFAULTS, scales: { x:{ticks:{color:TICK_COLOR},grid:{color:GRID_COLOR}}, y:{min:90,ticks:{color:TICK_COLOR},grid:{color:GRID_COLOR}} } }
@@ -616,7 +616,7 @@ function initMonitoringCharts() {
       labels: ['Q1 2025','Q2 2025','Q3 2025','Q4 2025'],
       datasets: [
         { label:'Total Tertimbang', data:[3.57,3.73,3.56,null], backgroundColor:['#0ea5e9','#22c55e','#0ea5e9','#1e3a5f'], borderRadius:6 },
-        { label:'Target â‰¥3.5', data:[3.5,3.5,3.5,3.5], type:'line', borderColor:'#eab30880', borderDash:[4,4], pointRadius:0 }
+        { label:'Target ≥3.5', data:[3.5,3.5,3.5,3.5], type:'line', borderColor:'#eab30880', borderDash:[4,4], pointRadius:0 }
       ]
     },
     options: { ...CHART_DEFAULTS, scales: { x:{ticks:{color:TICK_COLOR},grid:{color:GRID_COLOR}}, y:{min:2.5,max:5,ticks:{color:TICK_COLOR},grid:{color:GRID_COLOR}} } }
@@ -646,7 +646,7 @@ function refreshMonitoringCharts() {
   }
 }
 
-// â”€â”€â”€ MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── MODAL ────────────────────────────────────────────────────
 function initModalEvents() {
   document.getElementById('addDataBtn').addEventListener('click', () => {
     document.getElementById('addDataModal').style.display = 'flex';
@@ -662,7 +662,7 @@ function initModalEvents() {
     if (confirm('Hapus SEMUA riwayat penilaian?')) {
       localStorage.removeItem('kpi_riwayat');
       buildRiwayatPage(); updateRiwayatBadge(); updateQuickStats();
-      showToast('âœ“ Semua riwayat dihapus.');
+      showToast('✓ Semua riwayat dihapus.');
     }
   });
   document.getElementById('riwayatSearch')?.addEventListener('input', buildRiwayatPage);
@@ -678,21 +678,21 @@ function saveMonitoringData() {
   const penagihan = parseFloat(document.getElementById('monPenagihan').value);
   const periode = document.getElementById('monPeriode').value;
   if (isNaN(nrw) || isNaN(kualitas) || isNaN(penagihan)) {
-    showToast('âš  Lengkapi semua field data!', 'warn'); return;
+    showToast('⚠️ Lengkapi semua field data!', 'warn'); return;
   }
   monitoringData.push({ periode, nrw, kualitas, penagihan, ikp:80, kehadiran:97 });
   buildMonitoringTable();
   refreshMonitoringCharts();
   closeModal();
-  showToast('âœ“ Data monitoring berhasil disimpan!');
+  showToast('✓ Data monitoring berhasil disimpan!');
 }
 
-// â”€â”€â”€ PRINT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── PRINT ────────────────────────────────────────────────────
 function initPrintBtn() {
   document.getElementById('printBtn').addEventListener('click', () => window.print());
 }
 
-// â”€â”€â”€ TOAST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── TOAST ────────────────────────────────────────────────────
 function showToast(msg, type = 'success') {
   const existing = document.querySelector('.toast');
   if (existing) existing.remove();
@@ -704,7 +704,7 @@ function showToast(msg, type = 'success') {
   setTimeout(() => toast.remove(), 3500);
 }
 
-// â”€â”€â”€ LOCALSTORAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── LOCALSTORAGE ─────────────────────────────────────────────
 function saveMonitoringToStorage() {
   localStorage.setItem('kpi_monitoring', JSON.stringify(monitoringData));
 }
@@ -718,7 +718,7 @@ function loadFromStorage() {
   }
 }
 
-// â”€â”€â”€ EXPORT CSV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── EXPORT CSV ───────────────────────────────────────────────
 function exportCSV() {
   const header = 'Periode,NRW (%),Kualitas Air (%),Penagihan (%),IKP,Kehadiran (%)';
   const rows = monitoringData.map(d => `${d.periode},${d.nrw},${d.kualitas},${d.penagihan},${d.ikp},${d.kehadiran}`);
@@ -728,15 +728,15 @@ function exportCSV() {
   const a = document.createElement('a');
   a.href = url; a.download = 'monitoring_kpi_pdam_' + new Date().toISOString().split('T')[0] + '.csv';
   a.click(); URL.revokeObjectURL(url);
-  showToast('ðŸ“¥ Data berhasil diexport ke CSV!');
+  showToast('📥 Data berhasil diexport ke CSV!');
 }
 
-// â”€â”€â”€ SIMPAN PENILAIAN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── SIMPAN PENILAIAN ─────────────────────────────────────────
 function simpanPenilaian() {
   const nama = document.getElementById('namaKaryawan').value.trim();
   const totalEl = document.getElementById('totalNilai');
-  if (!nama) { showToast('âš  Isi Nama Karyawan terlebih dahulu!', 'warn'); return; }
-  if (totalEl.textContent === 'â€”') { showToast('âš  Hitung Nilai terlebih dahulu!', 'warn'); return; }
+  if (!nama) { showToast('⚠️ Isi Nama Karyawan terlebih dahulu!', 'warn'); return; }
+  if (totalEl.textContent === '—') { showToast('⚠️ Hitung Nilai terlebih dahulu!', 'warn'); return; }
   const record = {
     id: Date.now(), nama,
     nik: document.getElementById('nikKaryawan').value,
@@ -751,8 +751,8 @@ function simpanPenilaian() {
     kpiData: getAllKpi().map(k => ({
       no: k.no, nama: k.nama,
       realisasi: document.getElementById('r_' + k.no)?.value || '',
-      nilai: document.getElementById('nilai_' + k.no)?.textContent || 'â€”',
-      tert: document.getElementById('tert_' + k.no)?.textContent || 'â€”',
+      nilai: document.getElementById('nilai_' + k.no)?.textContent || '—',
+      tert: document.getElementById('tert_' + k.no)?.textContent || '—',
       catatan: document.getElementById('cat_' + k.no)?.value || ''
     }))
   };
@@ -760,10 +760,10 @@ function simpanPenilaian() {
   existing.unshift(record);
   localStorage.setItem('kpi_riwayat', JSON.stringify(existing));
   updateRiwayatBadge(); updateQuickStats();
-  showToast('ðŸ’¾ Penilaian berhasil disimpan ke Riwayat!');
+  showToast('💾 Penilaian berhasil disimpan ke Riwayat!');
 }
 
-// â”€â”€â”€ BREAKDOWN PER PERSPEKTIF â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── BREAKDOWN PER PERSPEKTIF ─────────────────────────────────
 function buildBreakdownSection() {
   const bs = document.getElementById('breakdownSection');
   const grid = document.getElementById('breakdownGrid');
@@ -773,7 +773,7 @@ function buildBreakdownSection() {
     let pTotal = 0, pCount = 0;
     p.kpi.forEach(k => {
       const tEl = document.getElementById('tert_' + k.no);
-      if (tEl && tEl.textContent !== 'â€”') { pTotal += parseFloat(tEl.textContent) || 0; pCount++; }
+      if (tEl && tEl.textContent !== '—') { pTotal += parseFloat(tEl.textContent) || 0; pCount++; }
     });
     if (pCount === 0) return;
     const maxPossible = p.kpi.reduce((s, k) => s + parseFloat(k.bobot), 0) / 100 * 5;
@@ -783,14 +783,14 @@ function buildBreakdownSection() {
       <div class="breakdown-label" style="color:${p.color}">${p.label}</div>
       <div class="breakdown-score" style="color:${color}">${pTotal.toFixed(2)}</div>
       <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${pct}%;background:${p.color}"></div></div>
-      <div class="breakdown-meta">${pCount} dari ${p.kpi.length} KPI diisi Â· Bobot ${p.bobot}</div>
+      <div class="breakdown-meta">${pCount} dari ${p.kpi.length} KPI diisi · Bobot ${p.bobot}</div>
     </div>`;
   });
   grid.innerHTML = html;
   bs.style.display = html ? 'block' : 'none';
 }
 
-// â”€â”€â”€ RIWAYAT PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── RIWAYAT PAGE ─────────────────────────────────────────────
 function buildRiwayatPage() {
   const data = JSON.parse(localStorage.getItem('kpi_riwayat') || '[]');
   const q = document.getElementById('riwayatSearch')?.value?.toLowerCase() || '';
@@ -803,28 +803,28 @@ function buildRiwayatPage() {
   const colorMap = { 'SANGAT BAIK':'#22c55e','BAIK':'#84cc16','CUKUP':'#eab308','KURANG':'#f97316','SANGAT KURANG':'#ef4444' };
   grid.innerHTML = filtered.map(r => {
     const color = Object.entries(colorMap).find(([k]) => r.predikat?.includes(k))?.[1] || '#94a3b8';
-    const tgl = r.tglPenilaian ? new Date(r.tglPenilaian).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}) : 'â€”';
+    const tgl = r.tglPenilaian ? new Date(r.tglPenilaian).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}) : '—';
     const saved = new Date(r.savedAt).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
     return `<div class="riwayat-card" style="border-top:3px solid ${color}">
       <div class="riwayat-card-header">
-        <div><div class="riwayat-nama">${r.nama}</div><div class="riwayat-nik">NIK: ${r.nik||'â€”'}</div></div>
-        <span class="riwayat-badge" style="background:${color}20;color:${color};border:1px solid ${color}40">${r.predikat||'â€”'}</span>
+        <div><div class="riwayat-nama">${r.nama}</div><div class="riwayat-nik">NIK: ${r.nik||'—'}</div></div>
+        <span class="riwayat-badge" style="background:${color}20;color:${color};border:1px solid ${color}40">${r.predikat||'—'}</span>
       </div>
       <div class="riwayat-meta">
-        <span class="riwayat-meta-item">ðŸ“Œ ${r.jabatan||'â€”'}</span>
-        <span class="riwayat-meta-item">ðŸ¢ ${r.unit||'â€”'}</span>
-        <span class="riwayat-meta-item">ðŸ“… ${r.periode||'â€”'}</span>
+        <span class="riwayat-meta-item">ðŸ“Œ ${r.jabatan||'—'}</span>
+        <span class="riwayat-meta-item">ðŸ¢ ${r.unit||'—'}</span>
+        <span class="riwayat-meta-item">ðŸ“… ${r.periode||'—'}</span>
       </div>
       <div class="riwayat-score-row">
-        <div class="riwayat-score-big" style="color:${color}">${r.total?.toFixed(2)||'â€”'}</div>
+        <div class="riwayat-score-big" style="color:${color}">${r.total?.toFixed(2)||'—'}</div>
         <div class="riwayat-score-info">
-          <div class="riwayat-predikat" style="color:${color}">${r.predikat||'â€”'}</div>
-          <div class="riwayat-tgl">Dinilai: ${tgl} Â· Disimpan: ${saved}</div>
+          <div class="riwayat-predikat" style="color:${color}">${r.predikat||'—'}</div>
+          <div class="riwayat-tgl">Dinilai: ${tgl} · Disimpan: ${saved}</div>
         </div>
       </div>
       <div class="riwayat-actions">
         <button class="riwayat-btn" onclick="lihatDetailRiwayat(${r.id})">ðŸ‘ Lihat Detail</button>
-        <button class="riwayat-btn danger" onclick="hapusRiwayat(${r.id})">ðŸ—‘ Hapus</button>
+        <button class="riwayat-btn danger" onclick="hapusRiwayat(${r.id})">🗑 Hapus</button>
       </div>
     </div>`;
   }).join('');
@@ -835,20 +835,20 @@ function lihatDetailRiwayat(id) {
   const r = data.find(x => x.id === id); if (!r) return;
   const colorMap = {'SANGAT BAIK':'#22c55e','BAIK':'#84cc16','CUKUP':'#eab308','KURANG':'#f97316','SANGAT KURANG':'#ef4444'};
   const color = Object.entries(colorMap).find(([k]) => r.predikat?.includes(k))?.[1] || '#94a3b8';
-  document.getElementById('detailModalTitle').textContent = 'Detail Penilaian â€” ' + r.nama;
+  document.getElementById('detailModalTitle').textContent = 'Detail Penilaian — ' + r.nama;
   let html = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
     <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">Nama</div><div style="font-weight:700">${r.nama}</div></div>
-    <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">NIK</div><div style="font-weight:700">${r.nik||'â€”'}</div></div>
-    <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">Jabatan</div><div style="font-weight:700">${r.jabatan||'â€”'}</div></div>
-    <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">Periode</div><div style="font-weight:700">${r.periode||'â€”'}</div></div>
+    <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">NIK</div><div style="font-weight:700">${r.nik||'—'}</div></div>
+    <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">Jabatan</div><div style="font-weight:700">${r.jabatan||'—'}</div></div>
+    <div style="background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:11px;color:#64748b">Periode</div><div style="font-weight:700">${r.periode||'—'}</div></div>
   </div>
   <div style="text-align:center;padding:20px;background:var(--bg-dark);border-radius:8px;margin-bottom:16px">
-    <div style="font-size:48px;font-weight:900;color:${color}">${r.total?.toFixed(2)||'â€”'}</div>
-    <div style="font-size:16px;font-weight:700;color:${color}">${r.predikat||'â€”'}</div>
+    <div style="font-size:48px;font-weight:900;color:${color}">${r.total?.toFixed(2)||'—'}</div>
+    <div style="font-size:16px;font-weight:700;color:${color}">${r.predikat||'—'}</div>
   </div>
   <table class="kpi-table"><thead><tr><th>No</th><th>Indikator KPI</th><th>Realisasi</th><th>Nilai</th><th>Tertimbang</th><th>Catatan</th></tr></thead><tbody>`;
   (r.kpiData||[]).filter(k=>k.realisasi).forEach(k => {
-    html += `<tr><td>${k.no}</td><td style="font-size:12px">${k.nama}</td><td>${k.realisasi}</td><td style="font-weight:700">${k.nilai}</td><td>${k.tert}</td><td style="font-size:11px;color:#64748b">${k.catatan||'â€”'}</td></tr>`;
+    html += `<tr><td>${k.no}</td><td style="font-size:12px">${k.nama}</td><td>${k.realisasi}</td><td style="font-weight:700">${k.nilai}</td><td>${k.tert}</td><td style="font-size:11px;color:#64748b">${k.catatan||'—'}</td></tr>`;
   });
   html += '</tbody></table>';
   document.getElementById('detailModalBody').innerHTML = html;
@@ -861,7 +861,7 @@ function hapusRiwayat(id) {
   data = data.filter(x => x.id !== id);
   localStorage.setItem('kpi_riwayat', JSON.stringify(data));
   buildRiwayatPage(); updateRiwayatBadge(); updateQuickStats();
-  showToast('âœ“ Data penilaian berhasil dihapus.');
+  showToast('✓ Data penilaian berhasil dihapus.');
 }
 
 function updateRiwayatBadge() {
@@ -878,11 +878,11 @@ function updateQuickStats() {
   setEl('qsBaik', data.filter(r => r.total >= 3.5 && r.total < 4.5).length);
   setEl('qsCukup', data.filter(r => r.total >= 2.5 && r.total < 3.5).length);
   setEl('qsKurang', data.filter(r => r.total < 2.5).length);
-  const avg = data.length ? (data.reduce((s,r) => s + r.total, 0) / data.length).toFixed(2) : 'â€”';
+  const avg = data.length ? (data.reduce((s,r) => s + r.total, 0) / data.length).toFixed(2) : '—';
   setEl('qsAvgScore', avg);
 }
 
-// â”€â”€â”€ DARK/LIGHT MODE TOGGLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── DARK/LIGHT MODE TOGGLE ───────────────────────────────────
 function initModeToggle() {
   const btn = document.getElementById('modeToggleBtn');
   if (!btn) return;
@@ -902,10 +902,10 @@ function setLightMode(on) {
   }
 }
 
-// â”€â”€â”€ NOTIFIKASI PANEL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── NOTIFIKASI PANEL ─────────────────────────────────────────
 const NOTIF_ITEMS = [
-  { color:'#ef4444', text:'NRW 23% melebihi target â‰¤20%. Tindakan segera diperlukan untuk mengurangi kebocoran pipa.', time:'Hari ini' },
-  { color:'#f97316', text:'Penyelesaian Keluhan 93% masih di bawah target â‰¥95%. Tingkatkan respons tim layanan.', time:'Hari ini' },
+  { color:'#ef4444', text:'NRW 23% melebihi target ≤20%. Tindakan segera diperlukan untuk mengurangi kebocoran pipa.', time:'Hari ini' },
+  { color:'#f97316', text:'Penyelesaian Keluhan 93% masih di bawah target ≥95%. Tingkatkan respons tim layanan.', time:'Hari ini' },
   { color:'#eab308', text:'Evaluasi Triwulan III dijadwalkan akhir September 2025. Pastikan semua data KPI sudah dikumpulkan.', time:'3 hari lagi' },
   { color:'#0ea5e9', text:'Efisiensi Produksi Q3 mencapai 87%. Pertahankan performa operasional yang sudah membaik.', time:'Minggu ini' },
 ];
@@ -925,7 +925,7 @@ function initNotifPanel() {
   });
 }
 
-// â”€â”€â”€ INIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── INIT ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   loadFromStorage();
   initDate();
