@@ -15,16 +15,16 @@ const PERSPEKTIF = [
         formula:'(Rata-rata Piutang / Total Pendapatan) × 365', satuan:'Hari', bobot:'3%', target:'≤60 hari',
         scoring:'5=≤30 hari; 4=31-45 hari; 3=46-60 hari; 2=61-90 hari; 1=>90 hari', periode:'Triwulanan', arah:'rendah' },
       { no:3, nama:'Rasio Pendapatan Operasional terhadap Biaya Operasional (OPEX Ratio)', desc:'Mengukur efisiensi operasional perusahaan: seberapa besar biaya yang dikeluarkan per rupiah pendapatan.',
-        formula:'(Biaya Operasional / Pendapatan Operasional) × 100%', satuan:'%', bobot:'5%', target:'≤85%',
+        formula:'(Biaya Operasional / Pendapatan Operasional) × 100%', satuan:'%', bobot:'4%', target:'≤85%',
         scoring:'5=≤70%; 4=70-85%; 3=85-95%; 2=95-105%; 1=>105%', periode:'Triwulanan', arah:'rendah' },
       { no:4, nama:'Return on Assets (ROA)', desc:'Kemampuan perusahaan menghasilkan laba dari seluruh aset yang dimiliki.',
-        formula:'(Laba Bersih / Total Aset) × 100%', satuan:'%', bobot:'4%', target:'≥3%',
+        formula:'(Laba Bersih / Total Aset) × 100%', satuan:'%', bobot:'3%', target:'≥3%',
         scoring:'5=≥8%; 4=5-7,9%; 3=3-4,9%; 2=1-2,9%; 1=<1%', periode:'Tahunan', arah:'tinggi' },
       { no:5, nama:'Rasio Likuiditas (Current Ratio)', desc:'Kemampuan perusahaan memenuhi kewajiban jangka pendek menggunakan aset lancar.',
         formula:'(Aset Lancar / Kewajiban Lancar)', satuan:'Rasio', bobot:'3%', target:'≥1,5x',
         scoring:'5=≥2,5x; 4=2-2,4x; 3=1,5-1,9x; 2=1-1,4x; 1=<1x', periode:'Triwulanan', arah:'tinggi' },
       { no:6, nama:'Pertumbuhan Pendapatan Tarif Air (Revenue Growth)', desc:'Persentase pertumbuhan total pendapatan dari penjualan air dibandingkan periode yang sama tahun sebelumnya.',
-        formula:'((Pendapatan Tahun Ini - Pendapatan Tahun Lalu) / Pendapatan Tahun Lalu) × 100%', satuan:'%', bobot:'3%', target:'≥5%',
+        formula:'((Pendapatan Tahun Ini - Pendapatan Tahun Lalu) / Pendapatan Tahun Lalu) × 100%', satuan:'%', bobot:'2%', target:'≥5%',
         scoring:'5=≥15%; 4=10-14%; 3=5-9%; 2=0-4%; 1=<0% (turun)', periode:'Tahunan', arah:'tinggi' },
       { no:7, nama:'Realisasi Investasi & Belanja Modal (CapEx Realization)', desc:'Persentase realisasi program investasi dan belanja modal yang telah dianggarkan dalam RKAP.',
         formula:'(Realisasi CapEx / Anggaran CapEx) × 100%', satuan:'%', bobot:'3%', target:'≥85%',
@@ -37,7 +37,16 @@ const PERSPEKTIF = [
         scoring:'5=≤150; 4=151-200; 3=201-250; 2=251-300; 1=>300', periode:'Bulanan', arah:'rendah' },
       { no:10, nama:'Debt Service Coverage Ratio (DSCR)', desc:'Kemampuan perusahaan membayar kewajiban hutang menggunakan arus kas operasional.',
         formula:'(EBITDA / Total Kewajiban Hutang Jatuh Tempo)', satuan:'Rasio', bobot:'1%', target:'≥1,2x',
-        scoring:'5=≥2x; 4=1,5-1,9x; 3=1,2-1,4x; 2=1,0-1,1x; 1=<1x', periode:'Tahunan', arah:'tinggi' }
+        scoring:'5=≥2x; 4=1,5-1,9x; 3=1,2-1,4x; 2=1,0-1,1x; 1=<1x', periode:'Tahunan', arah:'tinggi' },
+      { no:54, nama:'Rasio Utang terhadap Modal (DER)', desc:'Mengukur proporsi hutang perusahaan terhadap ekuitas untuk menilai leverage keuangan.',
+        formula:'Total Hutang / Total Ekuitas', satuan:'Rasio', bobot:'1%', target:'≤1.5x',
+        scoring:'5=≤0.8x; 4=0.8-1.5x; 3=1.5-2x; 2=2-2.5x; 1=>2.5x', periode:'Tahunan', arah:'rendah' },
+      { no:55, nama:'Efisiensi Biaya Penagihan (Billing Cost Ratio)', desc:'Proporsi biaya administrasi penagihan terhadap total pendapatan tagihan.',
+        formula:'(Biaya Penagihan / Total Pendapatan) × 100%', satuan:'%', bobot:'1%', target:'≤3%',
+        scoring:'5=≤1.5%; 4=1.5-3%; 3=3-5%; 2=5-7%; 1=>7%', periode:'Triwulanan', arah:'rendah' },
+      { no:56, nama:'Realisasi Anggaran vs RKAP', desc:'Persentase realisasi anggaran operasional terhadap yang direncanakan dalam RKAP.',
+        formula:'(Realisasi Anggaran / Anggaran RKAP) × 100%', satuan:'%', bobot:'1%', target:'90–105%',
+        scoring:'5=95-105%; 4=90-94% atau 106-110%; 3=85-89%; 2=80-84%; 1=<80% atau >110%', periode:'Triwulanan', arah:'range' }
     ]
   },
   {
@@ -45,10 +54,10 @@ const PERSPEKTIF = [
     color: '#22c55e', colorLight: '#22c55e20', dotClass: 'dot-green',
     kpi: [
       { no:11, nama:'Indeks Kepuasan Pelanggan / IKP', desc:'Rata-rata skor kepuasan pelanggan dari survei berkala yang mengukur kualitas layanan PERUMDA Tirta Rangga.',
-        formula:'Rata-rata skor survei kepuasan (skala 0-100)', satuan:'Skor', bobot:'4%', target:'≥80/100',
+        formula:'Rata-rata skor survei kepuasan (skala 0-100)', satuan:'Skor', bobot:'3%', target:'≥80/100',
         scoring:'5=≥90; 4=80-89; 3=70-79; 2=60-69; 1=<60', periode:'Triwulanan', arah:'tinggi' },
       { no:12, nama:'Kontinuitas Layanan Air (Service Continuity)', desc:'Rata-rata jam per hari air mengalir secara aktif ke sambungan pelanggan.',
-        formula:'Total jam aliran air / Jumlah hari dalam periode', satuan:'Jam/hari', bobot:'3%', target:'≥20 jam/hari',
+        formula:'Total jam aliran air / Jumlah hari dalam periode', satuan:'Jam/hari', bobot:'2%', target:'≥20 jam/hari',
         scoring:'5=24 jam; 4=20-23 jam; 3=16-19 jam; 2=12-15 jam; 1=<12 jam', periode:'Bulanan', arah:'tinggi' },
       { no:13, nama:'Tingkat Penyelesaian Keluhan Umum', desc:'Persentase keluhan pelanggan yang berhasil diselesaikan dari total keluhan yang masuk dalam periode.',
         formula:'(Keluhan Diselesaikan / Total Keluhan Masuk) × 100%', satuan:'%', bobot:'3%', target:'≥95%',
@@ -63,7 +72,7 @@ const PERSPEKTIF = [
         formula:'Total waktu penyelesaian semua keluhan / Jumlah keluhan diselesaikan', satuan:'Jam', bobot:'2%', target:'≤24 jam',
         scoring:'5=≤8 jam; 4=8-24 jam; 3=24-48 jam; 2=48-72 jam; 1=>72 jam', periode:'Bulanan', arah:'rendah' },
       { no:17, nama:'Cakupan Pelayanan (Service Coverage)', desc:'Persentase penduduk dalam wilayah konsesi yang telah memperoleh akses layanan air PERUMDA Tirta Rangga.',
-        formula:'(Jumlah Penduduk Terlayani / Total Penduduk Wilayah Konsesi) × 100%', satuan:'%', bobot:'3%', target:'≥80%',
+        formula:'(Jumlah Penduduk Terlayani / Total Penduduk Wilayah Konsesi) × 100%', satuan:'%', bobot:'2%', target:'≥80%',
         scoring:'5=≥90%; 4=80-89%; 3=70-79%; 2=60-69%; 1=<60%', periode:'Tahunan', arah:'tinggi' },
       { no:18, nama:'Pertumbuhan Jumlah Pelanggan Baru', desc:'Jumlah sambungan rumah (SR) baru yang berhasil dipasang dalam periode tertentu.',
         formula:'Jumlah SR baru terpasang dalam periode', satuan:'SR/bulan', bobot:'2%', target:'≥50 SR/bln',
@@ -76,7 +85,16 @@ const PERSPEKTIF = [
         scoring:'5=≥60; 4=40-59; 3=20-39; 2=0-19; 1=<0', periode:'Tahunan', arah:'tinggi' },
       { no:21, nama:'Jumlah Pelanggan Aktif vs. Target', desc:'Membandingkan total pelanggan aktif terhadap target yang ditetapkan dalam RKAP.',
         formula:'(Jumlah Pelanggan Aktif / Target Pelanggan) × 100%', satuan:'%', bobot:'1%', target:'≥100%',
-        scoring:'5=≥105%; 4=100-104%; 3=90-99%; 2=80-89%; 1=<80%', periode:'Triwulanan', arah:'tinggi' }
+        scoring:'5=≥105%; 4=100-104%; 3=90-99%; 2=80-89%; 1=<80%', periode:'Triwulanan', arah:'tinggi' },
+      { no:57, nama:'Ketepatan Waktu Baca Meter', desc:'Persentase meter air yang berhasil dibaca tepat pada jadwal yang telah ditetapkan.',
+        formula:'(Meter Terbaca Tepat Waktu / Total Meter Aktif) × 100%', satuan:'%', bobot:'1%', target:'≥98%',
+        scoring:'5=100%; 4=98-99%; 3=95-97%; 2=90-94%; 1=<90%', periode:'Bulanan', arah:'tinggi' },
+      { no:58, nama:'Akurasi Tagihan Rekening (Zero Billing Error)', desc:'Persentase tagihan rekening air yang diterbitkan tanpa kesalahan dan tidak memerlukan koreksi.',
+        formula:'(Tagihan Tanpa Koreksi / Total Tagihan Diterbitkan) × 100%', satuan:'%', bobot:'1%', target:'≥99%',
+        scoring:'5=100%; 4=99-99.9%; 3=97-98.9%; 2=95-96.9%; 1=<95%', periode:'Bulanan', arah:'tinggi' },
+      { no:59, nama:'Tingkat Keluhan per 1000 Sambungan Rumah', desc:'Jumlah pengaduan yang masuk per 1000 SR aktif sebagai ukuran kualitas layanan secara keseluruhan.',
+        formula:'(Total Keluhan / SR Aktif) × 1000', satuan:'Keluhan', bobot:'1%', target:'≤5 keluhan/1000 SR',
+        scoring:'5=≤2; 4=3-5; 3=6-10; 2=11-15; 1=>15', periode:'Bulanan', arah:'rendah' }
     ]
   },
   {
@@ -84,19 +102,19 @@ const PERSPEKTIF = [
     color: '#f97316', colorLight: '#f9731620', dotClass: 'dot-orange',
     kpi: [
       { no:22, nama:'Non-Revenue Water (NRW)', desc:'Persentase air diproduksi yang tidak menghasilkan pendapatan.',
-        formula:'((Air Diproduksi - Air Berekening) / Air Diproduksi) × 100%', satuan:'%', bobot:'4%', target:'≤20%',
+        formula:'((Air Diproduksi - Air Berekening) / Air Diproduksi) × 100%', satuan:'%', bobot:'3%', target:'≤20%',
         scoring:'5=≤15%; 4=15-20%; 3=20-25%; 2=25-30%; 1=>30%', periode:'Bulanan', arah:'rendah' },
       { no:23, nama:'Kualitas Air - Kepatuhan Baku Mutu', desc:'Persentase sampel uji air yang memenuhi standar Permenkes.',
-        formula:'(Sampel Lulus Uji / Total Sampel Diuji) × 100%', satuan:'%', bobot:'3%', target:'100%',
+        formula:'(Sampel Lulus Uji / Total Sampel Diuji) × 100%', satuan:'%', bobot:'2%', target:'100%',
         scoring:'5=100%; 4=98-99%; 3=95-97%; 2=90-94%; 1=<90%', periode:'Bulanan', arah:'tinggi' },
       { no:24, nama:'Efisiensi Produksi', desc:'Rasio volume air yang berhasil didistribusikan ke jaringan terhadap kapasitas produksi.',
         formula:'(Volume Air Produksi Aktual / Kapasitas Produksi Terpasang) × 100%', satuan:'%', bobot:'2%', target:'≥85%',
         scoring:'5=≥95%; 4=85-94%; 3=75-84%; 2=65-74%; 1=<65%', periode:'Bulanan', arah:'tinggi' },
       { no:25, nama:'Ketersediaan Pompa & Peralatan Utama', desc:'Persentase waktu pompa beroperasi normal dibandingkan waktu operasional yang direncanakan.',
-        formula:'((Waktu Rencana - Downtime) / Waktu Rencana) × 100%', satuan:'%', bobot:'2%', target:'≥95%',
+        formula:'((Waktu Rencana - Downtime) / Waktu Rencana) × 100%', satuan:'%', bobot:'1%', target:'≥95%',
         scoring:'5=≥98%; 4=95-97%; 3=90-94%; 2=85-89%; 1=<85%', periode:'Bulanan', arah:'tinggi' },
       { no:26, nama:'MTTR Kebocoran Pipa', desc:'Rata-rata waktu perbaikan laporan kebocoran pipa utama.',
-        formula:'Total jam perbaikan / Jumlah kasus kebocoran', satuan:'Jam', bobot:'2%', target:'≤4 jam',
+        formula:'Total jam perbaikan / Jumlah kasus kebocoran', satuan:'Jam', bobot:'1%', target:'≤4 jam',
         scoring:'5=≤2 jam; 4=2-4 jam; 3=4-6 jam; 2=6-12 jam; 1=>12 jam', periode:'Bulanan', arah:'rendah' },
       { no:27, nama:'Tingkat Akurasi Meteran', desc:'Persentase meter air yang berfungsi dengan baik dan akurat.',
         formula:'(Meter Akurat / Total Meter) × 100%', satuan:'%', bobot:'2%', target:'≥95%',
@@ -130,7 +148,19 @@ const PERSPEKTIF = [
         scoring:'5=≥0.5; 4=0.2-0.49; 3=0.1-0.19; 2=0.01-0.09; 1=0', periode:'Bulanan', arah:'tinggi' },
       { no:37, nama:'Waktu Pemulihan Aliran Air (Recovery Time)', desc:'Waktu yang dibutuhkan aliran air kembali normal setelah pipa diperbaiki.',
         formula:'Total jam pemulihan / jumlah perbaikan', satuan:'Jam', bobot:'1%', target:'≤6 Jam',
-        scoring:'5=≤2 jam; 4=3-6 jam; 3=7-12 jam; 2=13-24 jam; 1=>24 jam', periode:'Bulanan', arah:'rendah' }
+        scoring:'5=≤2 jam; 4=3-6 jam; 3=7-12 jam; 2=13-24 jam; 1=>24 jam', periode:'Bulanan', arah:'rendah' },
+      { no:60, nama:'Efisiensi Penggunaan Air Baku (Source Utilization)', desc:'Perbandingan volume air yang berhasil diolah terhadap total air baku yang diambil dari sumber.',
+        formula:'(Volume Air Diolah / Volume Air Baku Diambil) × 100%', satuan:'%', bobot:'1%', target:'≥92%',
+        scoring:'5=≥97%; 4=92-96%; 3=87-91%; 2=80-86%; 1=<80%', periode:'Bulanan', arah:'tinggi' },
+      { no:61, nama:'Pengelolaan Lumpur & Backwash WTP', desc:'Persentase volume lumpur/backwash dari proses WTP yang berhasil dikelola sesuai standar lingkungan.',
+        formula:'(Volume Lumpur Terkelola / Total Volume Lumpur) × 100%', satuan:'%', bobot:'1%', target:'≥80%',
+        scoring:'5=100%; 4=80-99%; 3=60-79%; 2=40-59%; 1=<40%', periode:'Bulanan', arah:'tinggi' },
+      { no:62, nama:'Realisasi Flushing Jaringan Distribusi', desc:'Persentase titik flushing yang terlaksana dari total titik yang direncanakan dalam program pemeliharaan.',
+        formula:'(Titik Flushing Terlaksana / Target Titik Flushing) × 100%', satuan:'%', bobot:'1%', target:'≥90%',
+        scoring:'5=100%; 4=90-99%; 3=80-89%; 2=70-79%; 1=<70%', periode:'Triwulanan', arah:'tinggi' },
+      { no:63, nama:'Deteksi & Peta Kebocoran Aktif (Leak Survey)', desc:'Persentase panjang pipa yang telah disurvei deteksi kebocoran menggunakan alat ukur dibandingkan rencana.',
+        formula:'(Panjang Pipa Disurvei / Target Pipa Disurvei) × 100%', satuan:'%', bobot:'1%', target:'≥85%',
+        scoring:'5=≥95%; 4=85-94%; 3=70-84%; 2=55-69%; 1=<55%', periode:'Tahunan', arah:'tinggi' }
     ]
   },
   {
@@ -138,13 +168,13 @@ const PERSPEKTIF = [
     color: '#8b5cf6', colorLight: '#8b5cf620', dotClass: 'dot-purple',
     kpi: [
       { no:38, nama:'Tingkat Kehadiran Karyawan (Attendance Rate)', desc:'Persentase hari kerja efektif karyawan yang hadir.',
-        formula:'(Hari Hadir / Hari Dijadwalkan) × 100%', satuan:'%', bobot:'2%', target:'≥97%',
+        formula:'(Hari Hadir / Hari Dijadwalkan) × 100%', satuan:'%', bobot:'1%', target:'≥97%',
         scoring:'5=≥99%; 4=97-98.9%; 3=94-96.9%; 2=90-93.9%; 1=<90%', periode:'Bulanan', arah:'tinggi' },
       { no:39, nama:'Realisasi Jam Pelatihan per Karyawan', desc:'Jumlah jam pelatihan yang diikuti per karyawan per tahun.',
         formula:'Total jam pelatihan / jumlah karyawan', satuan:'Jam', bobot:'1%', target:'≥40 jam',
         scoring:'5=≥60; 4=40-59; 3=25-39; 2=15-24; 1=<15', periode:'Tahunan', arah:'tinggi' },
       { no:40, nama:'Pencapaian Target Individu', desc:'Rata-rata pencapaian KPI individu seluruh staf.',
-        formula:'Rata-rata % pencapaian individu', satuan:'%', bobot:'2%', target:'≥90%',
+        formula:'Rata-rata % pencapaian individu', satuan:'%', bobot:'1%', target:'≥90%',
         scoring:'5=≥100%; 4=90-99%; 3=75-89%; 2=60-74%; 1=<60%', periode:'Triwulanan', arah:'tinggi' },
       { no:41, nama:'Indeks Disiplin Kerja', desc:'Mengukur kepatuhan karyawan terhadap peraturan perusahaan.',
         formula:'100 - Skor pelanggaran', satuan:'Skor', bobot:'1%', target:'≥90',
@@ -159,11 +189,20 @@ const PERSPEKTIF = [
         formula:'(Karyawan Tersertifikasi / Karyawan Teknis) × 100%', satuan:'%', bobot:'1%', target:'≥80%',
         scoring:'5=≥90%; 4=80-89%; 3=70-79%; 2=60-69%; 1=<60%', periode:'Tahunan', arah:'tinggi' },
       { no:45, nama:'Zero Accident (K3)', desc:'Jumlah kecelakaan kerja yang menghilangkan jam kerja (Lost Time Injury).',
-        formula:'Jumlah insiden', satuan:'Insiden', bobot:'2%', target:'0',
+        formula:'Jumlah insiden', satuan:'Insiden', bobot:'1%', target:'0',
         scoring:'5=0; 4=1 (minor); 3=2 (minor); 2=1 (mayor); 1=>1 (mayor)', periode:'Tahunan', arah:'rendah' },
       { no:46, nama:'Rasio Pegawai per 1000 Pelanggan', desc:'Efektivitas jumlah pegawai dibandingkan jumlah pelanggan.',
         formula:'(Jumlah Pegawai / (Jumlah Pelanggan / 1000))', satuan:'Rasio', bobot:'1%', target:'≤6.0',
-        scoring:'5=≤4.0; 4=4.1-6.0; 3=6.1-8.0; 2=8.1-10.0; 1=>10.0', periode:'Tahunan', arah:'rendah' }
+        scoring:'5=≤4.0; 4=4.1-6.0; 3=6.1-8.0; 2=8.1-10.0; 1=>10.0', periode:'Tahunan', arah:'rendah' },
+      { no:64, nama:'Realisasi Rekrutmen Sesuai Kebutuhan', desc:'Persentase posisi yang kosong/dibutuhkan berhasil diisi sesuai target waktu dan kualifikasi.',
+        formula:'(Posisi Terisi / Posisi Dibutuhkan) × 100%', satuan:'%', bobot:'1%', target:'100%',
+        scoring:'5=100%; 4=90-99%; 3=75-89%; 2=60-74%; 1=<60%', periode:'Tahunan', arah:'tinggi' },
+      { no:65, nama:'Ketepatan Pelaksanaan Penilaian Kinerja', desc:'Persentase karyawan yang mendapat penilaian kinerja formal sesuai jadwal yang ditetapkan.',
+        formula:'(Penilaian Tepat Waktu / Total Karyawan) × 100%', satuan:'%', bobot:'1%', target:'100%',
+        scoring:'5=100%; 4=95-99%; 3=85-94%; 2=70-84%; 1=<70%', periode:'Tahunan', arah:'tinggi' },
+      { no:66, nama:'Indeks Budaya & Nilai Perusahaan', desc:'Skor asesmen penerapan nilai-nilai dan budaya perusahaan oleh seluruh karyawan.',
+        formula:'Rata-rata skor asesmen budaya perusahaan (0-100)', satuan:'Skor', bobot:'1%', target:'≥75',
+        scoring:'5=≥90; 4=75-89; 3=60-74; 2=45-59; 1=<45', periode:'Tahunan', arah:'tinggi' }
     ]
   },
   {
@@ -171,7 +210,7 @@ const PERSPEKTIF = [
     color: '#14b8a6', colorLight: '#14b8a620', dotClass: 'dot-teal',
     kpi: [
       { no:47, nama:'Implementasi Digitalisasi Layanan', desc:'Tingkat adopsi sistem digital (SCADA, e-payment, app).',
-        formula:'(Sistem Aktif / Target Roadmap) × 100%', satuan:'%', bobot:'2%', target:'≥80%',
+        formula:'(Sistem Aktif / Target Roadmap) × 100%', satuan:'%', bobot:'1%', target:'≥80%',
         scoring:'5=≥100%; 4=80-99%; 3=60-79%; 2=40-59%; 1=<40%', periode:'Tahunan', arah:'tinggi' },
       { no:48, nama:'Jumlah Inovasi / Perbaikan Proses', desc:'Proyek efisiensi yang diimplementasikan.',
         formula:'Jumlah inovasi', satuan:'Inovasi', bobot:'1%', target:'≥2',
@@ -190,7 +229,10 @@ const PERSPEKTIF = [
         scoring:'5=100%; 4=95-99%; 3=85-94%; 2=75-84%; 1=<75%', periode:'Tahunan', arah:'tinggi' },
       { no:53, nama:'Indeks Tata Kelola Perusahaan (GCG)', desc:'Skor pemenuhan standar Good Corporate Governance.',
         formula:'Skor Asesmen GCG', satuan:'Skor', bobot:'1%', target:'≥85',
-        scoring:'5=≥90; 4=85-89.9; 3=75-84.9; 2=60-74.9; 1=<60', periode:'Tahunan', arah:'tinggi' }
+        scoring:'5=≥90; 4=85-89.9; 3=75-84.9; 2=60-74.9; 1=<60', periode:'Tahunan', arah:'tinggi' },
+      { no:67, nama:'Ketersediaan Data Kinerja Digital Real-Time', desc:'Persentase indikator KPI perusahaan yang data realisasinya tersedia secara digital dan dapat diakses secara real-time.',
+        formula:'(KPI Terekam Digital / Total KPI Wajib) × 100%', satuan:'%', bobot:'1%', target:'≥80%',
+        scoring:'5=100%; 4=80-99%; 3=60-79%; 2=40-59%; 1=<40%', periode:'Triwulanan', arah:'tinggi' }
     ]
   }
 ];
