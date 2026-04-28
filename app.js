@@ -1,5 +1,5 @@
 ﻿/* ============================================================
-   KPI PDAM - Main Application JavaScript
+   KPI PERUMDA Tirta Rangga - Main Application JavaScript
    ============================================================ */
 
 // ─── DATA ────────────────────────────────────────────────────
@@ -11,7 +11,7 @@ const PERSPEKTIF = [
       { no:1, nama:'Tingkat Penagihan Rekening (Collection Rate)', desc:'Persentase tagihan air yang berhasil ditagih dari total tagihan yang diterbitkan kepada pelanggan aktif.',
         formula:'(Total Rekening Tertagih / Total Rekening Diterbitkan) × 100%', satuan:'%', bobot:'4%', target:'≥95%',
         scoring:'5=≥98%; 4=95-97%; 3=90-94%; 2=85-89%; 1=<85%', periode:'Bulanan', arah:'tinggi' },
-      { no:2, nama:'Umur Piutang (Days Sales Outstanding / DSO)', desc:'Rata-rata jumlah hari yang dibutuhkan PDAM untuk menagih piutang pelanggannya.',
+      { no:2, nama:'Umur Piutang (Days Sales Outstanding / DSO)', desc:'Rata-rata jumlah hari yang dibutuhkan PERUMDA Tirta Rangga untuk menagih piutang pelanggannya.',
         formula:'(Rata-rata Piutang / Total Pendapatan) × 365', satuan:'Hari', bobot:'3%', target:'≤60 hari',
         scoring:'5=≤30 hari; 4=31-45 hari; 3=46-60 hari; 2=61-90 hari; 1=>90 hari', periode:'Triwulanan', arah:'rendah' },
       { no:3, nama:'Rasio Pendapatan Operasional terhadap Biaya Operasional (OPEX Ratio)', desc:'Mengukur efisiensi operasional perusahaan: seberapa besar biaya yang dikeluarkan per rupiah pendapatan.',
@@ -44,7 +44,7 @@ const PERSPEKTIF = [
     id: 'pelanggan', label: 'Pelanggan & Layanan', bobot: '25%',
     color: '#22c55e', colorLight: '#22c55e20', dotClass: 'dot-green',
     kpi: [
-      { no:11, nama:'Indeks Kepuasan Pelanggan / IKP', desc:'Rata-rata skor kepuasan pelanggan dari survei berkala yang mengukur kualitas layanan PDAM.',
+      { no:11, nama:'Indeks Kepuasan Pelanggan / IKP', desc:'Rata-rata skor kepuasan pelanggan dari survei berkala yang mengukur kualitas layanan PERUMDA Tirta Rangga.',
         formula:'Rata-rata skor survei kepuasan (skala 0-100)', satuan:'Skor', bobot:'4%', target:'≥80/100',
         scoring:'5=≥90; 4=80-89; 3=70-79; 2=60-69; 1=<60', periode:'Triwulanan', arah:'tinggi' },
       { no:12, nama:'Kontinuitas Layanan Air (Service Continuity)', desc:'Rata-rata jam per hari air mengalir secara aktif ke sambungan pelanggan.',
@@ -62,7 +62,7 @@ const PERSPEKTIF = [
       { no:16, nama:'Waktu Penyelesaian Keluhan (Average Resolution Time)', desc:'Rata-rata waktu yang dibutuhkan untuk menyelesaikan satu keluhan pelanggan secara fisik.',
         formula:'Total waktu penyelesaian semua keluhan / Jumlah keluhan diselesaikan', satuan:'Jam', bobot:'2%', target:'≤24 jam',
         scoring:'5=≤8 jam; 4=8-24 jam; 3=24-48 jam; 2=48-72 jam; 1=>72 jam', periode:'Bulanan', arah:'rendah' },
-      { no:17, nama:'Cakupan Pelayanan (Service Coverage)', desc:'Persentase penduduk dalam wilayah konsesi yang telah memperoleh akses layanan air PDAM.',
+      { no:17, nama:'Cakupan Pelayanan (Service Coverage)', desc:'Persentase penduduk dalam wilayah konsesi yang telah memperoleh akses layanan air PERUMDA Tirta Rangga.',
         formula:'(Jumlah Penduduk Terlayani / Total Penduduk Wilayah Konsesi) × 100%', satuan:'%', bobot:'3%', target:'≥80%',
         scoring:'5=≥90%; 4=80-89%; 3=70-79%; 2=60-69%; 1=<60%', periode:'Tahunan', arah:'tinggi' },
       { no:18, nama:'Pertumbuhan Jumlah Pelanggan Baru', desc:'Jumlah sambungan rumah (SR) baru yang berhasil dipasang dalam periode tertentu.',
@@ -71,7 +71,7 @@ const PERSPEKTIF = [
       { no:19, nama:'Waktu Pemasangan SR Baru (Time to Connect)', desc:'Rata-rata waktu yang dibutuhkan sejak permohonan SR baru disetujui hingga air mengalir.',
         formula:'Total hari proses seluruh SR baru / Jumlah SR baru dipasang', satuan:'Hari', bobot:'1%', target:'≤10 hari',
         scoring:'5=≤5 hari; 4=6-10 hari; 3=11-15 hari; 2=16-20 hari; 1=>20 hari', periode:'Bulanan', arah:'rendah' },
-      { no:20, nama:'Net Promoter Score (NPS)', desc:'Mengukur loyalitas pelanggan - seberapa besar kemungkinan pelanggan merekomendasikan layanan PDAM.',
+      { no:20, nama:'Net Promoter Score (NPS)', desc:'Mengukur loyalitas pelanggan - seberapa besar kemungkinan pelanggan merekomendasikan layanan PERUMDA Tirta Rangga.',
         formula:'% Promoter - % Detractor', satuan:'Skor', bobot:'1%', target:'≥40',
         scoring:'5=≥60; 4=40-59; 3=20-39; 2=0-19; 1=<0', periode:'Tahunan', arah:'tinggi' },
       { no:21, nama:'Jumlah Pelanggan Aktif vs. Target', desc:'Membandingkan total pelanggan aktif terhadap target yang ditetapkan dalam RKAP.',
@@ -797,7 +797,7 @@ function exportCSV() {
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'monitoring_kpi_pdam_' + new Date().toISOString().split('T')[0] + '.csv';
+  a.href = url; a.download = 'monitoring_kpi_perumdatrs_' + new Date().toISOString().split('T')[0] + '.csv';
   a.click(); URL.revokeObjectURL(url);
   showToast('📥 Data berhasil diexport ke CSV!');
 }

@@ -1,7 +1,7 @@
-# Sistem KPI PDAM 🏛️
+# Sistem KPI PERUMDA Tirta Rangga Kabupaten Subang 🏛️
 
 **Aplikasi Web Manajemen Key Performance Indicator (KPI)**  
-Perusahaan Daerah Air Minum (PDAM) — Versi 1.0 · 2025
+PERUMDA Tirta Rangga Kabupaten Subang — Versi 1.0 · 2025
 
 🔗 **Live Demo:** [https://rikoa7x-art.github.io/kpi-pdam](https://rikoa7x-art.github.io/kpi-pdam)
 
@@ -62,4 +62,4 @@ Perusahaan Daerah Air Minum (PDAM) — Versi 1.0 · 2025
 
 ---
 
-*Dikembangkan untuk PDAM · Periode Evaluasi: Triwulanan & Tahunan*
+*Dikembangkan untuk PERUMDA Tirta Rangga Kabupaten Subang · Periode Evaluasi: Triwulanan & Tahunan*
