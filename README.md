@@ -12,7 +12,7 @@ Perusahaan Daerah Air Minum (PDAM) — Versi 1.0 · 2025
 | Halaman | Deskripsi |
 |---------|-----------|
 | 📊 **Dashboard** | Monitoring real-time 6 metrik utama, 5 chart interaktif, tabel rekap triwulanan |
-| 📝 **Form Penilaian** | Input realisasi 42 KPI, kalkulasi otomatis nilai & predikat, cetak form |
+| 📝 **Form Penilaian** | Input realisasi 53 KPI, kalkulasi otomatis nilai & predikat, cetak form |
 | 📋 **KPI Lengkap** | Katalog lengkap 42 indikator, filter & pencarian, panduan scoring |
 | 📈 **Monitoring** | Tren bulanan, tambah/hapus data, 4 chart tren operasional |
 | 📖 **Panduan** | Siklus evaluasi, cara penilaian, interpretasi hasil, etika penilaian |
@@ -21,14 +21,14 @@ Perusahaan Daerah Air Minum (PDAM) — Versi 1.0 · 2025
 
 ## 🗂️ Struktur KPI
 
-**42 Indikator** dalam **5 Perspektif Balanced Scorecard:**
+**53 Indikator** dalam **5 Perspektif Balanced Scorecard:**
 
 ```
-🔵 Keuangan & Efisiensi     (9 KPI · 30%)
-🟢 Pelanggan & Layanan      (9 KPI · 25%)
-🟠 Operasional & Teknis    (12 KPI · 25%)
-🟣 SDM & Organisasi         (7 KPI · 12%)
-🩵 Inovasi & Keberlanjutan  (5 KPI ·  8%)
+🔵 Keuangan & Efisiensi     (10 KPI · 30%)
+🟢 Pelanggan & Layanan      (11 KPI · 25%)
+🟠 Operasional & Teknis    (16 KPI · 25%)
+🟣 SDM & Organisasi         (9 KPI · 12%)
+🩵 Inovasi & Keberlanjutan  (7 KPI ·  8%)
 ```
 
 ---
