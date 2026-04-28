@@ -349,12 +349,36 @@ function refreshDashboardCharts() {
 // ─── FORM TABLE ───────────────────────────────────────────────
 function buildFormTable() {
   const tbody = document.getElementById('formTableBody');
+  const unitBagian = document.getElementById('unitBagian')?.value || '';
+  
+  const unitMapping = {
+    'Teknik & Operasional': ['operasional', 'sdm'],
+    'Keuangan & Akuntansi': ['keuangan', 'sdm'],
+    'Pelayanan Pelanggan': ['pelanggan', 'sdm'],
+    'SDM & Umum': ['sdm', 'inovasi'],
+    'Perencanaan & IT': ['inovasi', 'operasional', 'sdm'],
+    'Internal Audit': ['keuangan', 'inovasi', 'sdm']
+  };
+  
+  const allowedIds = unitMapping[unitBagian] || ['keuangan', 'pelanggan', 'operasional', 'sdm', 'inovasi'];
+  const filteredPerspektif = PERSPEKTIF.filter(p => allowedIds.includes(p.id));
+  
+  let totalOriginalBobot = 0;
+  filteredPerspektif.forEach(p => p.kpi.forEach(k => totalOriginalBobot += parseFloat(k.bobot)));
+  const faktorPengali = totalOriginalBobot > 0 ? (100 / totalOriginalBobot) : 1;
+  
   let html = '';
-  PERSPEKTIF.forEach(p => {
-    html += `<tr class="perspektif-header"><td colspan="9">Perspektif: ${p.label} — Bobot ${p.bobot}</td></tr>`;
+  filteredPerspektif.forEach(p => {
+    let pOriginalBobot = 0;
+    p.kpi.forEach(k => pOriginalBobot += parseFloat(k.bobot));
+    const effectivePBobot = (pOriginalBobot * faktorPengali).toFixed(1) + '%';
+
+    html += `<tr class="perspektif-header"><td colspan="9">Perspektif: ${p.label} — Bobot Efektif ${effectivePBobot}</td></tr>`;
     p.kpi.forEach(k => {
       const bobotNum = parseFloat(k.bobot);
-      html += `<tr data-no="${k.no}" data-bobot="${bobotNum}">
+      const effectiveBobot = (bobotNum * faktorPengali).toFixed(2);
+      
+      html += `<tr data-no="${k.no}" data-bobot="${effectiveBobot}">
         <td style="text-align:center;font-weight:700;color:${p.color}">${k.no}</td>
         <td>
           <div style="font-weight:600;font-size:12px;color:#e2e8f0;line-height:1.4">${k.nama}</div>
@@ -364,19 +388,21 @@ function buildFormTable() {
         <td><input type="number" step="0.01" placeholder="0" class="realisasi-input" id="r_${k.no}" oninput="calcRow(${k.no})" /></td>
         <td><div class="capai-display" id="capai_${k.no}">—</div></td>
         <td><div class="nilai-display" id="nilai_${k.no}" style="color:#64748b">—</div></td>
-        <td><div class="bobot-display">${k.bobot}</div></td>
+        <td><div class="bobot-display" title="Bobot Asli: ${k.bobot}">${effectiveBobot}%</div></td>
         <td><div class="tertimbang-display" id="tert_${k.no}" style="color:#64748b">—</div></td>
         <td><input type="text" placeholder="Bukti/catatan..." id="cat_${k.no}" style="font-size:11px" /></td>
       </tr>`;
     });
   });
   tbody.innerHTML = html;
+  filteredPerspektif.forEach(p => p.kpi.forEach(k => calcRow(k.no)));
 }
 
 function calcRow(no) {
   const kpi = getAllKpi().find(k => k.no === no);
   if (!kpi) return;
   const realisasiEl = document.getElementById('r_' + no);
+  if (!realisasiEl) return;
   const val = parseFloat(realisasiEl.value);
   if (isNaN(val)) {
     document.getElementById('capai_' + no).textContent = '—';
@@ -387,7 +413,12 @@ function calcRow(no) {
   }
   const capai = calcCapai(kpi, val);
   const nilai = calcNilai(kpi, val);
-  const tert = ((nilai * parseFloat(kpi.bobot)) / 100).toFixed(2);
+  
+  const tr = document.querySelector(`tr[data-no="${no}"]`);
+  const effectiveBobot = tr ? parseFloat(tr.getAttribute('data-bobot')) : parseFloat(kpi.bobot);
+  
+  const tert = ((nilai * effectiveBobot) / 100).toFixed(2);
+  
   document.getElementById('capai_' + no).textContent = capai;
   const nEl = document.getElementById('nilai_' + no);
   nEl.textContent = nilai;
@@ -435,6 +466,13 @@ function initFormEvents() {
   document.getElementById('simpanFormBtn').addEventListener('click', simpanPenilaian);
   document.getElementById('atasan').addEventListener('input', e => {
     document.getElementById('ttdAtasan').textContent = e.target.value || '__________________';
+  });
+  document.getElementById('unitBagian').addEventListener('change', () => {
+    buildFormTable();
+    document.getElementById('totalNilai').textContent = '—';
+    document.getElementById('predikatKinerja').textContent = 'Belum Dihitung';
+    document.getElementById('predikatKinerja').style.color = '#94a3b8';
+    document.getElementById('hasilSection').style.display = 'none';
   });
 }
 
@@ -782,7 +820,7 @@ function simpanPenilaian() {
     total: parseFloat(totalEl.textContent),
     predikat: document.getElementById('predikatKinerja').textContent,
     savedAt: new Date().toISOString(),
-    kpiData: getAllKpi().map(k => ({
+    kpiData: getAllKpi().filter(k => document.querySelector(`tr[data-no="${k.no}"]`)).map(k => ({
       no: k.no, nama: k.nama,
       realisasi: document.getElementById('r_' + k.no)?.value || '',
       nilai: document.getElementById('nilai_' + k.no)?.textContent || '—',
@@ -805,19 +843,23 @@ function buildBreakdownSection() {
   let html = '';
   PERSPEKTIF.forEach(p => {
     let pTotal = 0, pCount = 0;
+    let pEffectiveBobot = 0;
     p.kpi.forEach(k => {
       const tEl = document.getElementById('tert_' + k.no);
       if (tEl && tEl.textContent !== '—') { pTotal += parseFloat(tEl.textContent) || 0; pCount++; }
+      const tr = document.querySelector(`tr[data-no="${k.no}"]`);
+      if (tr) pEffectiveBobot += parseFloat(tr.getAttribute('data-bobot'));
     });
     if (pCount === 0) return;
-    const maxPossible = p.kpi.reduce((s, k) => s + parseFloat(k.bobot), 0) / 100 * 5;
-    const pct = Math.min(100, (pTotal / maxPossible) * 100);
-    const color = pTotal >= 1.75 ? '#22c55e' : pTotal >= 1.25 ? '#eab308' : '#ef4444';
+    const maxPossible = (pEffectiveBobot / 100) * 5;
+    const pct = maxPossible > 0 ? Math.min(100, (pTotal / maxPossible) * 100) : 0;
+    const ratio = pTotal / maxPossible;
+    const color = ratio >= 0.8 ? '#22c55e' : ratio >= 0.5 ? '#eab308' : '#ef4444';
     html += `<div class="breakdown-item" style="border-top-color:${p.color}">
       <div class="breakdown-label" style="color:${p.color}">${p.label}</div>
       <div class="breakdown-score" style="color:${color}">${pTotal.toFixed(2)}</div>
       <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${pct}%;background:${p.color}"></div></div>
-      <div class="breakdown-meta">${pCount} dari ${p.kpi.length} KPI diisi · Bobot ${p.bobot}</div>
+      <div class="breakdown-meta">${pCount} KPI diisi · Bobot Efektif ${pEffectiveBobot.toFixed(1)}%</div>
     </div>`;
   });
   grid.innerHTML = html;
